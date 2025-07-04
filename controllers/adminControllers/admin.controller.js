@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-import { Admin } from "../../models/admin/admin.model.js";
-
+import { Admin } from "../../models/Admin/admin.model.js";
 const { ADMIN_JWT_SECRET } = process.env;
 
 /*      Admin Signup        */
