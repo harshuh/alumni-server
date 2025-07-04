@@ -6,7 +6,7 @@ import { rateLimiter } from "../../middlewares/rateLimiter.js";
 import {
   subadminSignup,
   subadminLogin,
-} from "../../controllers/subadmin/subadmin.controller.js";
+} from "../../controllers/adminControllers/subadmin.controller.js";
 
 const subadminRouter = Router();
 

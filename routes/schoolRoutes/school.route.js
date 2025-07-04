@@ -9,7 +9,7 @@ import {
   getSchool,
   updateSchool,
   deleteSchool,
-} from "../../controllers/school/school.controller.mjs";
+} from "../../controllers/schoolControllers/school.controller.js";
 
 const schoolRouter = Router();
 

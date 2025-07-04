@@ -7,7 +7,7 @@ import {
   listPendingAlumni,
   approveAlumni,
   rejectAlumni,
-} from "../../controllers/adminControllers/alumniVerify.controller.js";
+} from "../../controllers/alumniControllers/alumniVerify.controller.js";
 
 const alumniApprovalRouter = Router();
 
