@@ -1,4 +1,4 @@
-import { AlumniCard } from "../../models/alumni/AlumniCard.model.js";
+import { AlumniCard } from "../../models/Alumni/alumniCard.model.js";
 
 /*                                                           Create a new card – duplicate check FIRST */
 export const createAlumniCard = async (req, res) => {
