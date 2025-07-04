@@ -61,7 +61,8 @@ app.use("/api/admin/school", schoolRouter);
 
 // Start Server
 
-const PORT = process.env.PORT || 1212;
-app.listen(PORT, () => {
+const PORT = process.env.PORT;
+app.listen(PORT, function (err) {
+  if (err) console.log("Error in server setup");
   console.log(`--> Server listening on http://localhost:${PORT}`);
 });
