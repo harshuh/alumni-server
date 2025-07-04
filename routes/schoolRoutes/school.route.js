@@ -1,0 +1,24 @@
+// routes/school/school.router.mjs
+import { Router } from "express";
+import { adminAuth } from "../../middlewares/adminAuth.js";
+import { rateLimiter } from "../../middlewares/rateLimiter.js";
+
+import {
+  createSchool,
+  listSchools,
+  getSchool,
+  updateSchool,
+  deleteSchool,
+} from "../../controllers/school/school.controller.mjs";
+
+const schoolRouter = Router();
+
+schoolRouter.use(adminAuth);
+
+schoolRouter.post("/add", rateLimiter, createSchool);
+schoolRouter.get("/", listSchools);
+schoolRouter.get("/:id", getSchool);
+schoolRouter.put("/:id", rateLimiter, updateSchool);
+schoolRouter.delete("/:id", rateLimiter, deleteSchool);
+
+export { schoolRouter };

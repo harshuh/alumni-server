@@ -16,7 +16,7 @@ const alumniCardRouter = Router();
 alumniCardRouter.use(adminAuth);
 
 /* CRUD routes (rate‑limit only the state‑changing ones) */
-alumniCardRouter.post("/", rateLimiter, createAlumniCard); // create
+alumniCardRouter.post("/add", rateLimiter, createAlumniCard); // create
 alumniCardRouter.get("/", listAlumniCards); // list
 alumniCardRouter.get("/:id", getAlumniCard); // read
 alumniCardRouter.put("/:id", rateLimiter, updateAlumniCard); // update
