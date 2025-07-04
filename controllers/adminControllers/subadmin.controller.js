@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { Subadmin } from "../../models/Moderator/subadmin.model";
+import { Subadmin } from "../../models/Moderator/subadmin.model.js";
 
 const { ADMIN_JWT_SECRET } = process.env;
 

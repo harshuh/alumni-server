@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
-import { Alumni } from "../../models/Alumni/alumniData.model";
+import { Alumni } from "../../models/Alumni/alumniData.model.js";
 
 const { EMAIL, EMAIL_CREDS } = process.env;
 

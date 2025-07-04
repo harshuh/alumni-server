@@ -1,5 +1,5 @@
 // controllers/school/school.controller.mjs
-import { School } from "../../models/school/school.model.js";
+import { School } from "../../models/School/school.model.js";
 
 //
 
