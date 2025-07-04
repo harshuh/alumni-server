@@ -33,6 +33,9 @@ const AlumniSchema = new Schema(
       trim: true,
       match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, // basic email regex
     },
+    credential: {
+      type: String,
+    },
     phone: {
       type: String,
       required: true,
@@ -43,6 +46,13 @@ const AlumniSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "School",
       required: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verified_at: {
+      type: Date,
     },
   },
   {
