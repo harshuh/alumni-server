@@ -1,0 +1,91 @@
+// controllers/school/school.controller.mjs
+import { School } from "../../models/school/school.model.js";
+
+//
+
+/*                                                           Create School    */
+
+export const createSchool = async (req, res) => {
+  try {
+    const { schoolName, program, branch } = req.body;
+
+    if (!schoolName || !program || !branch) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    // Duplicate guard FIRST
+    const dupe = await School.findOne({ schoolName, branch });
+    if (dupe) {
+      return res
+        .status(409)
+        .json({ error: "School with this program and code already exists" });
+    }
+
+    const newSchool = await School.create({
+      schoolName: schoolName.trim(),
+      program: program.trim(),
+      branch: branch.trim(),
+    });
+
+    res.status(201).json({ message: "School added", school: newSchool });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error creating school" });
+  }
+};
+
+/*                                                            List Schools    */
+
+export const listSchools = async (_req, res) => {
+  try {
+    const schools = await School.find(
+      {},
+      { schoolName: 1, program: 1, _id: 0 }
+    );
+    res.status(200).json(schools);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching schools" });
+  }
+};
+
+/*                                                             Get School     */
+
+export const getSchool = async (req, res) => {
+  try {
+    const school = await School.findById(req.params.id);
+    if (!school) return res.status(404).json({ message: "School not found" });
+    res.status(200).json(school);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching school" });
+  }
+};
+
+/*                                                          Update School     */
+
+export const updateSchool = async (req, res) => {
+  try {
+    const updated = await School.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updated) return res.status(404).json({ message: "School not found" });
+    res.status(200).json({ message: "School updated", school: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error updating school" });
+  }
+};
+
+/*                                                           Delete School     */
+
+export const deleteSchool = async (req, res) => {
+  try {
+    const deleted = await School.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "School not found" });
+    res.status(200).json({ message: "School deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error deleting school" });
+  }
+};
