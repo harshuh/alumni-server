@@ -4,7 +4,17 @@ const { Schema, model } = mongoose;
 
 const AlumniSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     alumniName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    fatherName: {
       type: String,
       required: true,
       trim: true,
@@ -45,6 +55,14 @@ const AlumniSchema = new Schema(
     schoolId: {
       type: Schema.Types.ObjectId,
       ref: "School",
+      required: true,
+    },
+    yearOfPassing: {
+      type: String,
+      required: true,
+    },
+    imgOfDegree: {
+      type: String,
       required: true,
     },
     isVerified: {
