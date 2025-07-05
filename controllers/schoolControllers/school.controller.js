@@ -20,13 +20,13 @@ export const createSchool = async (req, res) => {
       });
     }
 
-    const newSchool = await School.create({
+    await School.create({
       schoolName: schoolName.trim(),
       program: program.trim(),
       branch: branch.trim(),
     });
 
-    res.status(201).json({ message: "School added", school: newSchool });
+    res.status(201).json({ message: `${schoolName} Added !` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error creating school" });
