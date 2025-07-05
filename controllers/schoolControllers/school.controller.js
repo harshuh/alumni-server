@@ -13,12 +13,11 @@ export const createSchool = async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Duplicate guard FIRST
-    const dupe = await School.findOne({ schoolName, branch });
+    const dupe = await School.findOne({ schoolName, program, branch });
     if (dupe) {
-      return res
-        .status(409)
-        .json({ error: "School with this program and code already exists" });
+      return res.status(409).json({
+        error: `${schoolName} with this ${branch} already exists in ${program}`,
+      });
     }
 
     const newSchool = await School.create({
