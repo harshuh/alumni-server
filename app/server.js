@@ -41,6 +41,9 @@ import { alumniApprovalRouter } from "../routes/adminOperations/alumniVerificati
 // School Routes
 import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 
+//utils
+import { filterRouter } from "../utils/filterData.js";
+
 // Route Mounting
 
 app.get("/", (req, res) => {
@@ -59,6 +62,8 @@ app.use("/api", alumniApprovalRouter);
 // School/Event/Payment Routes
 app.use("/api", schoolRouter);
 
+//utils
+app.use("/api", filterRouter);
 // Start Server
 
 const PORT = process.env.PORT;
