@@ -53,6 +53,7 @@ app.get("/", (req, res) => {
 // Auth Routes
 app.use("/api", adminRouter);
 app.use("/api", subadminRouter);
+app.use("/api", schoolRouter);
 app.use("/api", alumniRouter);
 
 // Admin Operation Routes (Subadmin too)
@@ -60,7 +61,6 @@ app.use("/api", alumniCardRouter);
 app.use("/api", alumniApprovalRouter);
 
 // School/Event/Payment Routes
-app.use("/api", schoolRouter);
 
 //utils
 app.use("/api", filterRouter);
