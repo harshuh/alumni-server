@@ -36,7 +36,7 @@ export const createEvent = async (req, res) => {
 };
 
 /* --------------------------- 2. List Events --------------------------- */
-export const listEvents = async (_req, res) => {
+export const listEvents = async (req, res) => {
   try {
     const events = await Event.find().sort({ date: -1 });
     res.status(200).json(events);

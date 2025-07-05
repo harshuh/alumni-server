@@ -12,7 +12,7 @@ const emailTransporter = nodemailer.createTransport({
 });
 
 /*                        1. List Pending Alumni Accounts                     */
-export const listPendingAlumni = async (_req, res) => {
+export const listPendingAlumni = async (req, res) => {
   try {
     const pendingAlumni = await Alumni.find({ isVerified: false }).lean();
     res.json(pendingAlumni);

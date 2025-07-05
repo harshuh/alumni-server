@@ -34,7 +34,7 @@ export const createAlumniCard = async (req, res) => {
 };
 
 /*                                                            List Cards       */
-export const listAlumniCards = async (_req, res) => {
+export const listAlumniCards = async (req, res) => {
   try {
     const cards = await AlumniCard.find();
     res.status(200).json(cards);
