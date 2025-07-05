@@ -16,7 +16,7 @@ const schoolRouter = Router();
 schoolRouter.use(adminAuth);
 
 schoolRouter.post("/school/add", rateLimiter, createSchool);
-schoolRouter.get("/school", listSchools);
+schoolRouter.get("/school/list", listSchools);
 schoolRouter.get("/school/:id", getSchool);
 schoolRouter.put("/school/:id", rateLimiter, updateSchool);
 schoolRouter.delete("/school/:id", rateLimiter, deleteSchool);
