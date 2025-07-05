@@ -13,20 +13,21 @@ export const createSchool = async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const dupe = await School.findOne({ schoolName, program, branch });
-    if (dupe) {
-      return res.status(409).json({
-        error: `${schoolName} with this ${branch} already exists in ${program}`,
-      });
-    }
+    // const dupe = await School.findOne({ schoolName, program, branch });
+    // if (dupe) {
+    //   return res.status(409).json({
+    //     error: `${schoolName} with this ${branch} already exists in ${program}`,
+    //   });
+    // }
 
     await School.create({
       schoolName: schoolName.trim(),
       program: program.trim(),
       branch: branch.trim(),
     });
-
-    res.status(201).json({ message: `${schoolName} Added !` });
+    res.status(201).json({
+      message: `${branch} branch under ${program} has been added to ${schoolName}`,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error creating school" });
