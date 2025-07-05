@@ -39,9 +39,9 @@ export const listOfSchools = async (req, res) => {
   try {
     const schools = await School.find(
       {},
-      { schoolName: 1, program: 1, branch: 1, _id: 0 }
+      { schoolName: 1, program: 1, branch: 1 }
     );
-    res.status(200).json(schools);
+    res.status(200).json({ data: schools });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error fetching schools" });
@@ -54,7 +54,7 @@ export const getSchool = async (req, res) => {
   try {
     const school = await School.findById(req.params.id);
     if (!school) return res.status(404).json({ message: "School not found" });
-    res.status(200).json(school);
+    res.status(200).json({ data: school });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error fetching school" });
@@ -69,7 +69,7 @@ export const updateSchool = async (req, res) => {
       new: true,
     });
     if (!updated) return res.status(404).json({ message: "School not found" });
-    res.status(200).json({ message: "School updated", school: updated });
+    res.status(200).json({ message: "School updated", data: updated });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error updating school" });
