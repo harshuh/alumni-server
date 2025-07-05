@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
+import { School } from "../../models/School/school.model.js";
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
 
 const { ALUMNI_JWT_SECRET, JWT_SECRET, EMAIL, EMAIL_CREDS, FRONTEND_URL } =
@@ -21,24 +22,40 @@ export const registerAlumni = async (req, res) => {
   try {
     const {
       title,
-      dob,
       alumniName,
-      email,
-      phone,
-      fathersName,
+      fatherName,
+      dob,
       enrollmentNo,
       rollNo,
-      schoolId,
-      programme,
+      email,
+      phone,
+      schoolName,
+      program,
+      branch,
       yearOfPassing,
+      imgOfDegree,
     } = req.body;
 
-    if (!alumniName || !email || !enrollmentNo || !rollNo || !schoolId) {
+    if (
+      !alumniName ||
+      !email ||
+      !enrollmentNo ||
+      !rollNo ||
+      !schoolName ||
+      !program
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    const school = await School.findOne({ schoolName, program, branch });
+    if (!school) {
+      return res
+        .status(404)
+        .json({ error: "School / Program / branch not found" });
+    }
+
     const exists = await Alumni.findOne({
-      $or: [{ enrollmentNo }, { rollNo }, { email }],
+      $or: [{ enrollmentNo }, { phone }, { email }],
     });
     if (exists) {
       return res.status(409).json({ error: "User already registered" });
@@ -46,16 +63,16 @@ export const registerAlumni = async (req, res) => {
 
     await Alumni.create({
       title,
-      dob,
       alumniName: alumniName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone?.trim(),
-      fathersName,
+      fatherName: fatherName?.trim(),
+      dob,
       enrollmentNo: enrollmentNo.trim(),
       rollNo: rollNo.trim(),
-      schoolId,
-      programme,
+      email: email.trim().toLowerCase(),
+      phone: phone?.trim(),
+      schoolId: school._id,
       yearOfPassing,
+      imgOfDegree,
       isVerified: false,
     });
 
