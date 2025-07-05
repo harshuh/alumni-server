@@ -35,13 +35,13 @@ export const createSchool = async (req, res) => {
 
 /*                                                            List Schools    */
 
-export const listSchools = async (_req, res) => {
+export const listSchools = async (req, res) => {
   try {
     const schools = await School.find(
       {},
-      { schoolName: 1, program: 1, _id: 0 }
+      { schoolName: 1, program: 1, branch: 1, _id: 0 }
     );
-    res.status(200).json(schools);
+    res.status(200).json({ data: schools });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error fetching schools" });
