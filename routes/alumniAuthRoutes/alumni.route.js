@@ -9,9 +9,9 @@ import {
 
 const alumniRouter = Router();
 
-alumniRouter.post("alumni/register", registerAlumni);
-alumniRouter.post("alumni/login", loginAlumni);
-alumniRouter.post("alumni/forgot-password", sendResetLink);
-alumniRouter.post("alumni/forgot-password/reset/:token", resetPassword);
+alumniRouter.post("/alumni/register", registerAlumni);
+alumniRouter.post("/alumni/login", loginAlumni);
+alumniRouter.post("/alumni/forgot-password", sendResetLink);
+alumniRouter.post("/alumni/forgot-password/reset/:token", resetPassword);
 
 export { alumniRouter };
