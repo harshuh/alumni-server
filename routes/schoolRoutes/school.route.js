@@ -5,7 +5,7 @@ import { rateLimiter } from "../../middlewares/rateLimiter.js";
 
 import {
   createSchool,
-  listSchools,
+  listOfSchools,
   getSchool,
   updateSchool,
   deleteSchool,
@@ -16,7 +16,7 @@ const schoolRouter = Router();
 schoolRouter.use(adminAuth);
 
 schoolRouter.post("/school/add", rateLimiter, createSchool);
-schoolRouter.get("/school/list", listSchools);
+schoolRouter.get("/school", listOfSchools);
 schoolRouter.get("/school/:id", getSchool);
 schoolRouter.put("/school/:id", rateLimiter, updateSchool);
 schoolRouter.delete("/school/:id", rateLimiter, deleteSchool);
