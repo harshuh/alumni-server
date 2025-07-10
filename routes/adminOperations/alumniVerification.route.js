@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { rateLimiter } from "../../middlewares/rateLimiter.js";
 
 import { adminAuth } from "../../middlewares/adminAuth.js";
 
@@ -15,8 +14,8 @@ alumniApprovalRouter.use(adminAuth);
 
 alumniApprovalRouter.get("/pending-users", listPendingAlumni);
 
-alumniApprovalRouter.post("/approve-user", rateLimiter, approveAlumni);
+alumniApprovalRouter.post("/approve-user/:enrollmentNo", approveAlumni);
 
-alumniApprovalRouter.delete("/reject-user", rateLimiter, rejectAlumni);
+alumniApprovalRouter.delete("/reject-user/:enrollmentNo", rejectAlumni);
 
 export { alumniApprovalRouter };
