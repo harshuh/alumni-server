@@ -25,7 +25,7 @@ export const listPendingAlumni = async (req, res) => {
 /*                          2. Approve an Alumni Account                      */
 export const approveAlumni = async (req, res) => {
   try {
-    const enrollmentNumber = (req.query.enrollmentNo || "").trim();
+    const enrollmentNumber = (req.params.enrollmentNo || "").trim();
     if (!enrollmentNumber) {
       return res.status(400).json({ message: "enrollmentNo required" });
     }
@@ -67,7 +67,7 @@ export const approveAlumni = async (req, res) => {
 /*                          3. Reject an Alumni Account                       */
 export const rejectAlumni = async (req, res) => {
   try {
-    const enrollmentNumber = (req.query.enrollmentNo || "").trim();
+    const enrollmentNumber = (req.params.enrollmentNo || "").trim();
     if (!enrollmentNumber) {
       return res.status(400).json({ message: "enrollmentNo required" });
     }
