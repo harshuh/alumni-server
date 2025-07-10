@@ -6,9 +6,12 @@ import { Alumni } from "../../models/Alumni/alumniData.model.js";
 const { EMAIL, EMAIL_CREDS } = process.env;
 
 /*                            Shared Mail Transporter                         */
-const emailTransporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
   service: "gmail",
-  auth: { user: EMAIL, creds: EMAIL_CREDS },
+  auth: {
+    user: EMAIL,
+    pass: EMAIL_CREDS,
+  },
 });
 
 /*                        1. List Pending Alumni Accounts                     */
@@ -41,10 +44,11 @@ export const approveAlumni = async (req, res) => {
 
     alumni.isVerified = true;
     alumni.credential = hashedTempCredential;
+
     await alumni.save();
 
     /* Send approval email */
-    await emailTransporter.sendMail({
+    await transporter.sendMail({
       from: EMAIL,
       to: alumni.email,
       subject: "Your GBU Alumni Account Has Been Approved",
@@ -60,7 +64,7 @@ export const approveAlumni = async (req, res) => {
     res.json({ message: "Alumni approved", alumni });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error", error: error });
   }
 };
 
