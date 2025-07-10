@@ -3,14 +3,12 @@ import nodemailer from "nodemailer";
 
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
 
-const { EMAIL, EMAIL_CREDS } = process.env;
-
 /*                            Shared Mail Transporter                         */
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: EMAIL,
-    pass: EMAIL_CREDS,
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_CREDS,
   },
 });
 
@@ -49,7 +47,7 @@ export const approveAlumni = async (req, res) => {
 
     /* Send approval email */
     await transporter.sendMail({
-      from: EMAIL,
+      from: process.env.EMAIL,
       to: alumni.email,
       subject: "Your GBU Alumni Account Has Been Approved",
       html: `
@@ -83,8 +81,8 @@ export const rejectAlumni = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    await emailTransporter.sendMail({
-      from: EMAIL,
+    await transporter.sendMail({
+      from: process.env.EMAIL,
       to: alumni.email,
       subject: "GBU Alumni Registration Rejected",
       html: `
