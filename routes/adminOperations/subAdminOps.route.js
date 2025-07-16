@@ -10,7 +10,7 @@ const subadminOpsRouter = Router();
 
 subadminOpsRouter.use(adminAuth);
 
-subadminOpsRouter.get("/root/subadmin", subAdminList);
-subadminOpsRouter.delete("/root/subadmin/:username", subAdminDelete);
+subadminOpsRouter.get("/subadmin", subAdminList);
+subadminOpsRouter.delete("/subadmin/:username", subAdminDelete);
 
 export { subadminOpsRouter };
