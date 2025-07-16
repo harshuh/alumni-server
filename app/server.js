@@ -35,6 +35,7 @@ import { alumniRouter } from "../routes/alumniAuthRoutes/alumni.route.js";
 // Admin Operations (subadmin role)
 import { alumniCardRouter } from "../routes/adminOperations/alumniCard.route.js";
 import { alumniApprovalRouter } from "../routes/adminOperations/alumniVerification.route.js";
+import { subadminOpsRouter } from "../routes/adminOperations/subAdminOps.route.js";
 
 // School Routes
 import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
@@ -54,6 +55,7 @@ app.use("/api/subadmin", subadminRouter);
 app.use("/api/alumni", alumniRouter);
 
 // Admin Operation Routes (Subadmin too)
+app.use("/api/panel", subadminOpsRouter);
 app.use("/api/alumnicard", alumniCardRouter);
 app.use("/api/approval", alumniApprovalRouter);
 
