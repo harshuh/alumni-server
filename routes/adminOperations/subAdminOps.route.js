@@ -15,6 +15,6 @@ operationRouter.delete("/delete-subadmin/:username", subAdminDelete);
 
 // Alumni Tab
 operationRouter.get("/view-alumni", getAlumni);
-operationRouter.get("/delete-alumni/:enrollmentNo", deleteAlumni);
+operationRouter.delete("/delete-alumni/:enrollmentNo", deleteAlumni);
 
 export { operationRouter };

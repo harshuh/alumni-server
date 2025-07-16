@@ -42,7 +42,7 @@ export const subAdminDelete = async (req, res) => {
 // Alumni TAB
 export const getAlumni = async (req, res) => {
   try {
-    const alumni = await Alumni.find({}, "-_id");
+    const alumni = await Alumni.find({ isVerified: true }, "-credential");
     res.status(200).json(alumni);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });
@@ -54,16 +54,14 @@ export const deleteAlumni = async (req, res) => {
     if (!enrollmentNo) {
       return res.status(400).json({ message: "Enrollment Number Required!" });
     }
-    const alumni = await Alumni.findByIdAndDelete({
-      enrollmentNo: enrollmentNo,
-    });
+    const alumni = await Alumni.findOneAndDelete({ enrollmentNo });
     if (!alumni) {
-      return res.status(400).json({ message: "Alumni Not Found!!" });
+      return res.status(404).json({ message: "Alumni Not Found!" });
     }
     return res.status(200).json({ message: "Alumni Deleted Successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server Error ", error: error });
+    res.status(500).json({ message: "Server Error", error });
   }
 };
 //
