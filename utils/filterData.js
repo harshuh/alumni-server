@@ -1,15 +1,14 @@
+// utils/filterData.mjs
 import express from "express";
-
 import { adminAuth } from "../middlewares/adminAuth.js";
 import { School } from "../models/School/school.model.js";
 
-export const filterRouter = express.Router();
+const filterRouter = express.Router();
 
-/*
- * Returns:
+/**
  * {
- *   SOICT: ["CSE", "IT", "ECE"],
- *   SOM:   ["BBA", "B.Com"]
+ *   "SOICT": ["CSE", "IT", "ECE"],
+ *   "SOM": ["BBA", "B.Com"]
  * }
  */
 filterRouter.get("/data/filter", adminAuth, async (req, res) => {
@@ -31,7 +30,9 @@ filterRouter.get("/data/filter", adminAuth, async (req, res) => {
 
     return res.status(200).json(result);
   } catch (err) {
-    console.error("Error building structured school data:", err);
+    console.error(" Error building structured school data:", err);
     return res.status(500).json({ error: "Failed to build structure" });
   }
 });
+
+export { filterRouter };

@@ -1,6 +1,5 @@
+// routes/adminOperations/subAdminOps.route.mjs
 import { Router } from "express";
-
-// import { adminAuth } from "../../middlewares/adminAuth.js";
 import {
   subAdminList,
   subAdminDelete,
@@ -8,7 +7,7 @@ import {
 
 const subadminOpsRouter = Router();
 
-subadminOpsRouter.get("/viewSubadmin", subAdminList);
-subadminOpsRouter.delete("/deleteSubadmin/:username", subAdminDelete);
+subadminOpsRouter.get("/view-subadmins", subAdminList);
+subadminOpsRouter.delete("/delete-subadmin/:username", subAdminDelete);
 
 export { subadminOpsRouter };
