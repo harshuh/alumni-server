@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { Subadmin } from "../../models/Moderator/subadmin.model.js";
+import { School } from "../../models/School/school.model.js";
 
 const { ADMIN_JWT_SECRET } = process.env;
 
@@ -8,12 +9,18 @@ const { ADMIN_JWT_SECRET } = process.env;
 
 export const subadminSignup = async (req, res) => {
   try {
+    const schoolName = (req.body.school || "").trim();
     const name = (req.body.name || "").trim();
     const username = (req.body.username || "").trim();
     const credential = (req.body.credential || "").trim();
 
-    if (!name || !username || !credential) {
+    if (!schoolName || !name || !username || !credential) {
       return res.status(400).json({ error: "Invalid input data" });
+    }
+
+    const schoolDoc = await School.findOne({ schoolName });
+    if (!schoolDoc) {
+      return res.status(400).json({ error: "Invalid school name" });
     }
 
     const usernameTaken = await Subadmin.findOne({ username });
@@ -24,7 +31,12 @@ export const subadminSignup = async (req, res) => {
     }
 
     const hashed = await bcrypt.hash(credential, 10);
-    await Subadmin.create({ name, username, credential: hashed });
+    await Subadmin.create({
+      schoolId: schoolDoc._id,
+      name,
+      username,
+      credential: hashed,
+    });
 
     res.json({ message: "Sub admin account created" });
   } catch (err) {

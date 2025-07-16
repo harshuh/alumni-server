@@ -4,6 +4,11 @@ const { Schema, model } = mongoose;
 
 const SubadminSchema = new Schema(
   {
+    schoolId: {
+      type: Schema.Types.ObjectId,
+      ref: "School",
+      required: true,
+    },
     name: {
       type: String,
       required: true,
