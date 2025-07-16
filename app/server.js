@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 // Auth Routes
 app.use("/api/root", adminRouter);
 app.use("/api/subadmin", subadminRouter);
-app.use("/api", alumniRouter);
+app.use("/api/alumni", alumniRouter);
 
 // Admin Operation Routes (Subadmin too)
 app.use("/api", alumniCardRouter);
