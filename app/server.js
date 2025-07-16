@@ -56,8 +56,10 @@ app.use("/api", adminRouter);
 app.use("/api", subadminRouter);
 app.use("/api", alumniRouter);
 
+//admin dashboard
+app.use("/api/panel", subadminOpsRouter);
+
 // Admin Operation Routes (Subadmin too)
-app.use("/api", subadminOpsRouter);
 app.use("/api", alumniCardRouter);
 app.use("/api", alumniApprovalRouter);
 
