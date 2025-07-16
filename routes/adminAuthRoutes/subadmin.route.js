@@ -9,7 +9,7 @@ import {
 
 const subadminRouter = Router();
 
-subadminRouter.post("/subadmin/signup", adminAuth, subadminSignup);
-subadminRouter.post("/subadmin/login", rateLimiter, subadminLogin);
+subadminRouter.post("/signup", adminAuth, subadminSignup);
+subadminRouter.post("/login", rateLimiter, subadminLogin);
 
 export { subadminRouter };
