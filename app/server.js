@@ -38,6 +38,7 @@ import { alumniCardRouter } from "../routes/adminOperations/alumniCard.route.js"
 import { alumniApprovalRouter } from "../routes/adminOperations/alumniVerification.route.js";
 
 // School Routes
+import { eventRouter } from "../routes/schoolRoutes/event.route.js";
 import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 
 //utils
@@ -60,6 +61,7 @@ app.use("/api/alumnicard", alumniCardRouter);
 app.use("/api/approval", alumniApprovalRouter);
 
 // School/Event/Payment Routes
+app.use("/api/events", eventRouter);
 app.use("/api/school", schoolRouter);
 
 //utils

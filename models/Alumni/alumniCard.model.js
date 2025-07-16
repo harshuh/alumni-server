@@ -25,11 +25,9 @@ const AlumniCardSchema = new Schema(
       required: true,
       trim: true,
     },
-    enrollmentNumber: {
-      type: String,
-      unique: true,
-      required: true,
-      trim: true,
+    issueDate: {
+      type: Date,
+      default: Date.now, // auto-fill with current date
     },
   },
   {
@@ -37,6 +35,3 @@ const AlumniCardSchema = new Schema(
     timestamps: true,
   }
 );
-AlumniCardSchema.index({ cardNo: 1, enrollmentNo: 1 }, { unique: true });
-
-export const AlumniCard = model("AlumniCard", AlumniCardSchema);
