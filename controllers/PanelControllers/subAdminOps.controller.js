@@ -1,4 +1,4 @@
-import { Subadmin } from "../../models/Moderator/subadmin.model";
+import { Subadmin } from "../../models/Moderator/subadmin.model.js";
 
 export const subAdminList = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ export const subAdminDelete = async (req, res) => {
   try {
     const username = (req.params.username || "").trim();
     if (!username) {
-      res.status(400).json({ message: "Username required" });
+      return res.status(400).json({ message: "Username required" });
     }
 
     const subadminDel = await Subadmin.findOneAndDelete({ username: username });
