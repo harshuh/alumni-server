@@ -2,12 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
 import { connectDatabase } from "../config/connectDB.js";
-
 // Load .env variables
 dotenv.config();
-
 // Connect to MongoDB
 await connectDatabase();
 
@@ -26,43 +23,52 @@ app.use(
   })
 );
 
-// Routes Imports
+// Route Imports
 
-// Auth
+// Admin & Subadmin Auth
 import { adminRouter } from "../routes/adminAuthRoutes/admin.route.js";
 import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
+
+// Alumni Aut
 import { alumniRouter } from "../routes/alumniAuthRoutes/alumni.route.js";
 
-// Admin Panel (Subadmin roles)
-import { subadminOpsRouter } from "../routes/adminOperations/subAdminOps.route.js";
+// Admin Operations (subadmin role)
 import { alumniCardRouter } from "../routes/adminOperations/alumniCard.route.js";
 import { alumniApprovalRouter } from "../routes/adminOperations/alumniVerification.route.js";
 
-// Misc
+// School Routes
 import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
+
+//utils
 import { filterRouter } from "../utils/filterData.js";
 
-// Health Check
+// Route Mounting
+
 app.get("/", (req, res) => {
-  res.send("✅ GBU Alumni Portal API is Running");
+  res.send(" GBU Alumni Portal API Running af");
 });
 
-// API Route Mounting
-app.use("/api/root", adminRouter);
-app.use("/api/subadmin", subadminRouter);
-app.use("/api/alumni", alumniRouter);
+// Auth Routes
+app.use("/api", adminRouter);
+app.use("/api", subadminRouter);
+app.use("/api", alumniRouter);
 
-app.use("/api/panel", subadminOpsRouter); // Subadmin control panel
-app.use("/api/card", alumniCardRouter); // Alumni Card approval
-app.use("/api/approval", alumniApprovalRouter); // Alumni approval
+// Admin Operation Routes (Subadmin too)
+app.use("/api", alumniCardRouter);
+app.use("/api", alumniApprovalRouter);
 
-app.use("/api/school", schoolRouter); // School-related routes
-app.use("/api/utils", filterRouter); // Utility routes
+// School/Event/Payment Routes
+app.use("/api", schoolRouter);
 
+//utils
+
+app.use("/api", filterRouter);
 // Start Server
 
 const PORT = process.env.PORT;
+
 app.listen(PORT, function (err) {
   if (err) console.log("Error in server setup");
+
   console.log(`--> Server listening on ${PORT}`);
 });
