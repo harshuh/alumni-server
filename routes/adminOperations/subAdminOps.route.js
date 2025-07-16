@@ -5,9 +5,9 @@ import {
   subAdminDelete,
 } from "../../controllers/PanelControllers/subAdminOps.controller.js";
 
-const subadminOpsRouter = Router();
+const operationRouter = Router();
 
-subadminOpsRouter.get("/view-subadmins", subAdminList);
-subadminOpsRouter.delete("/delete-subadmin/:username", subAdminDelete);
+operationRouter.get("/view-subadmins", subAdminList);
+operationRouter.delete("/delete-subadmin/:username", subAdminDelete);
 
-export { subadminOpsRouter };
+export { operationRouter };
