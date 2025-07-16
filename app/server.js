@@ -1,11 +1,11 @@
-// server.mjs
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
 import { connectDatabase } from "../config/connectDB.js";
 
-// Load environment variables
+// Load .env variables
 dotenv.config();
 
 // Connect to MongoDB
@@ -14,9 +14,10 @@ await connectDatabase();
 // Initialize app
 const app = express();
 
-// Global Middlewares
+// Middlewares
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(
   cors({
     origin: "*",
@@ -28,8 +29,8 @@ app.use(
 // Routes Imports
 
 // Auth
-// import { adminRouter } from "../routes/adminAuthRoutes/admin.route.js";
-// import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
+import { adminRouter } from "../routes/adminAuthRoutes/admin.route.js";
+import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
 import { alumniRouter } from "../routes/alumniAuthRoutes/alumni.route.js";
 
 // Admin Panel (Subadmin roles)
@@ -47,8 +48,8 @@ app.get("/", (req, res) => {
 });
 
 // API Route Mounting
-// app.use("/api/root", adminRouter);
-// app.use("/api/subadmin", subadminRouter);
+app.use("/api/root", adminRouter);
+app.use("/api/subadmin", subadminRouter);
 app.use("/api/alumni", alumniRouter);
 
 app.use("/api/panel", subadminOpsRouter); // Subadmin control panel
@@ -59,8 +60,9 @@ app.use("/api/school", schoolRouter); // School-related routes
 app.use("/api/utils", filterRouter); // Utility routes
 
 // Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, (err) => {
-  if (err) console.error(" Server error:", err);
-  else console.log(` GBU Alumni Portal Is Live...`);
+
+const PORT = process.env.PORT;
+app.listen(PORT, function (err) {
+  if (err) console.log("Error in server setup");
+  console.log(`--> Server listening on ${PORT}`);
 });
