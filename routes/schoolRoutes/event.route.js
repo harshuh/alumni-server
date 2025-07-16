@@ -11,9 +11,7 @@ import {
 
 const eventRouter = Router();
 
-eventRouter.use();
-
-eventRouter.post("/create", rateLimiter, createEvent);
+eventRouter.post("/", rateLimiter, createEvent);
 eventRouter.get("/", listEvents);
 eventRouter.delete("/:id", rateLimiter, deleteEvent);
 

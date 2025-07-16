@@ -35,3 +35,6 @@ const AlumniCardSchema = new Schema(
     timestamps: true,
   }
 );
+AlumniCardSchema.index({ cardNo: 1, enrollmentNo: 1 }, { unique: true });
+
+export const AlumniCard = model("AlumniCard", AlumniCardSchema);
