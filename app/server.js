@@ -58,7 +58,7 @@ app.use("/api/alumnicard", alumniCardRouter);
 app.use("/api/approval", alumniApprovalRouter);
 
 // School/Event/Payment Routes
-app.use("/api", schoolRouter);
+app.use("/api/school", schoolRouter);
 
 //utils
 
