@@ -62,7 +62,7 @@ app.use("/api/school", schoolRouter);
 
 //utils
 
-app.use("/api", filterRouter);
+app.use("/api/data", filterRouter);
 // Start Server
 
 const PORT = process.env.PORT;

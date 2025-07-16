@@ -11,7 +11,7 @@ export const filterRouter = express.Router();
  *   SOM:   ["BBA", "B.Com"]
  * }
  */
-filterRouter.get("/data/filter", adminAuth, async (req, res) => {
+filterRouter.get("/filter", adminAuth, async (req, res) => {
   try {
     const schools = await School.find({}, "schoolName program").lean();
     const result = {};
