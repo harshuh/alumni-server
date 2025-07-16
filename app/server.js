@@ -29,7 +29,7 @@ app.use(
 
 // Auth
 import { adminRouter } from "../routes/adminAuthRoutes/admin.route.js";
-import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
+// import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
 import { alumniRouter } from "../routes/alumniAuthRoutes/alumni.route.js";
 
 // Admin Panel (Subadmin roles)
@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
 // API Route Mounting
 app.use("/api/root", adminRouter);
-app.use("/api/subadmin", subadminRouter);
+// app.use("/api/subadmin", subadminRouter);
 app.use("/api/alumni", alumniRouter);
 
 app.use("/api/panel", subadminOpsRouter); // Subadmin control panel
