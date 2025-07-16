@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { adminAuth } from "../../middlewares/adminAuth.js";
-
 import {
   listPendingAlumni,
   approveAlumni,
@@ -12,7 +11,6 @@ const alumniApprovalRouter = Router();
 alumniApprovalRouter.use(adminAuth);
 
 alumniApprovalRouter.get("/pending-users", listPendingAlumni);
-alumniApprovalRouter.post("/approve/:enrollmentNo", approveAlumni);
-alumniApprovalRouter.delete("/reject/:enrollmentNo", rejectAlumni);
-
+alumniApprovalRouter.post("/approve-user/:enrollmentNo", approveAlumni);
+alumniApprovalRouter.delete("/reject-user/:enrollmentNo", rejectAlumni);
 export { alumniApprovalRouter };
