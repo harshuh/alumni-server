@@ -1,6 +1,6 @@
 // routes/event/event.router.mjs
 import { Router } from "express";
-import { adminAuth } from "../../middlewares/adminAuth.js";
+// import { adminAuth } from "../../middlewares/adminAuth.js";
 import { rateLimiter } from "../../middlewares/rateLimiter.js";
 
 import {
@@ -11,9 +11,9 @@ import {
 
 const eventRouter = Router();
 
-eventRouter.use(adminAuth);
+eventRouter.use();
 
-eventRouter.post("/", rateLimiter, createEvent);
+eventRouter.post("/create", rateLimiter, createEvent);
 eventRouter.get("/", listEvents);
 eventRouter.delete("/:id", rateLimiter, deleteEvent);
 
