@@ -55,12 +55,12 @@ app.use("/api/subadmin", subadminRouter);
 app.use("/api/alumni", alumniRouter);
 
 // Admin Operation Routes (Subadmin too)
-app.use("/api/panel", subadminOpsRouter);
 app.use("/api/alumnicard", alumniCardRouter);
 app.use("/api/approval", alumniApprovalRouter);
 
 // School/Event/Payment Routes
 app.use("/api/school", schoolRouter);
+app.use("/api/panel", subadminOpsRouter);
 
 //utils
 
