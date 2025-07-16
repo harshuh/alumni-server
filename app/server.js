@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 });
 
 // Auth Routes
-app.use("/api", adminRouter);
+app.use("/api/root", adminRouter);
 app.use("/api", subadminRouter);
 app.use("/api", alumniRouter);
 

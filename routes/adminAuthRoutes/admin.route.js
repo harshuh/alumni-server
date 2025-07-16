@@ -8,7 +8,7 @@ import {
 
 const adminRouter = Router();
 
-adminRouter.post("/root/signup", adminSignup);
-adminRouter.post("/root/login", rateLimiter, adminLogin); // Limits to 10 requests / 15 min
+adminRouter.post("/signup", adminSignup);
+adminRouter.post("/login", rateLimiter, adminLogin); // Limits to 10 requests / 15 min
 
 export { adminRouter };
