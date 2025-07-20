@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 export const listPendingAlumni = async (req, res) => {
   try {
     const pendingAlumni = await Alumni.find({ isVerified: false }).lean();
-    res.json(pendingAlumni);
+    res.json({ message: Found, entries: pendingAlumni });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
