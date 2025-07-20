@@ -59,7 +59,7 @@ export const adminLogin = async (req, res) => {
     res
       .cookie("admintk", token, {
         httpOnly: true,
-        sameSite: "http://localhost:5173",
+        sameSite: "none",
         secure: process.env.NODE_ENV === "production",
         maxAge: 15 * 60 * 1000, // 15 minutes for admin
       })
