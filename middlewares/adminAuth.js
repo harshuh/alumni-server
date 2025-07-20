@@ -8,7 +8,7 @@ const { ADMIN_JWT_SECRET } = process.env;
 export function adminAuth(req, res, next) {
   try {
     // Read from cookie named 'admintk'
-    const token = req.cookies?.admintk || req.cookies?.subadmintk || null;
+    const token = req.cookies?.admintk || null;
 
     if (!token) {
       return res.status(403).json({ message: "No token provided." });

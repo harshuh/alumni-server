@@ -73,7 +73,7 @@ export const subadminLogin = async (req, res) => {
     );
 
     res
-      .cookie("subadmintk", token, {
+      .cookie("admintk", token, {
         httpOnly: true,
         sameSite: "strict",
         secure: process.env.NODE_ENV === "production",
