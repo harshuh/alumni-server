@@ -75,7 +75,7 @@ export const subadminLogin = async (req, res) => {
     res
       .cookie("admintk", token, {
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: "http:localhost:5173",
         secure: process.env.NODE_ENV === "production",
         maxAge: 6 * 60 * 60 * 1000, // 6 hours
       })
