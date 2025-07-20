@@ -15,7 +15,7 @@ export const subAdminList = async (req, res) => {
       username: sa.username,
       schoolName: sa.schoolId?.schoolName || "N/A",
     }));
-    res.status(200).json(data);
+    res.status(200).json({ entries: data });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });
   }
@@ -43,7 +43,7 @@ export const subAdminDelete = async (req, res) => {
 export const getAlumni = async (req, res) => {
   try {
     const alumni = await Alumni.find({ isVerified: true }, "-credential");
-    res.status(200).json(alumni);
+    res.status(200).json({ entries: alumni });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });
   }
