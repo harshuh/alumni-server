@@ -109,7 +109,7 @@ export const loginAlumni = async (req, res) => {
 
     res.cookie("alumnitk", token, {
       httpOnly: true,
-      sameSite: "http:localhost:5173",
+      sameSite: "http://localhost:5173",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
     });
