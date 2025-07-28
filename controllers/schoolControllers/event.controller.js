@@ -39,10 +39,48 @@ export const createEvent = async (req, res) => {
 export const listEvents = async (req, res) => {
   try {
     const events = await Event.find().sort({ date: -1 });
-    res.status(200).json(events);
+    res.status(200).json({ entries: events });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error while fetching events" });
+  }
+};
+
+/* ------------------------ Update Event by ID ------------------------ */
+export const updateEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, date, venue, imageUrl, tags } = req.body;
+
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    if (title && title.trim() !== event.title) {
+      const existing = await Event.findOne({ title: title.trim() });
+      if (existing) {
+        return res
+          .status(409)
+          .json({ error: "Another event with this title already exists" });
+      }
+    }
+
+    event.title = title?.trim() || event.title;
+    event.description = description?.trim() || event.description;
+    event.date = date ? new Date(date) : event.date;
+    event.venue = venue?.trim() || event.venue;
+    event.imageUrl = imageUrl?.trim() || event.imageUrl;
+    event.tags = Array.isArray(tags)
+      ? tags.map((tag) => tag.trim())
+      : event.tags;
+
+    await event.save();
+
+    res.status(200).json({ message: "Event updated successfully", event });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error while updating event" });
   }
 };
 
