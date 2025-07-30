@@ -72,6 +72,10 @@ const AlumniSchema = new Schema(
     verified_at: {
       type: Date,
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     collection: "alumni",

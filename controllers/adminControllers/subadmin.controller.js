@@ -66,6 +66,9 @@ export const subadminLogin = async (req, res) => {
       return res.status(403).json({ message: "Incorrect credentials" });
     }
 
+    if (!subadmin.isActive) {
+      return res.status(403).json({ message: "You are disabled by admin" });
+    }
     const token = jwt.sign(
       { id: subadmin._id, role: "subadmin" }, // include role
       ADMIN_JWT_SECRET,

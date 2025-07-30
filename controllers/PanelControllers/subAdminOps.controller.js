@@ -20,6 +20,32 @@ export const subAdminList = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error });
   }
 };
+
+export const toggleSubadminStatus = async (req, res) => {
+  try {
+    const username = (req.params.username || "").trim();
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
+    }
+
+    const subadmin = await Subadmin.exists({ username });
+    if (!subadmin) {
+      return res.status(404).json({ message: "Subadmin not found" });
+    }
+
+    subadmin.isActive = !subadmin.isActive;
+    await subadmin.save();
+
+    res.status(200).json({
+      message: `Subadmin is now ${subadmin.isActive ? "active" : "disabled"}`,
+      isActive: subadmin.isActive,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
 export const subAdminDelete = async (req, res) => {
   try {
     const username = (req.params.username || "").trim();
@@ -48,6 +74,32 @@ export const getAlumni = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error });
   }
 };
+
+export const toggleAlumniStatus = async (req, res) => {
+  try {
+    const enrollmentNo = (req.params.enrollmentNo || "").trim();
+    if (!enrollmentNo) {
+      return res.status(400).json({ message: "Enrollment number is required" });
+    }
+
+    const alumni = await Alumni.findOne({ enrollmentNo });
+    if (!alumni) {
+      return res.status(404).json({ message: "Alumni not found" });
+    }
+
+    alumni.isActive = !alumni.isActive;
+    await alumni.save();
+
+    res.status(200).json({
+      message: `Alumni is now ${alumni.isActive ? "active" : "disabled"}`,
+      isActive: alumni.isActive,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
 export const deleteAlumni = async (req, res) => {
   try {
     const enrollmentNo = (req.params.enrollmentNo || "").trim();

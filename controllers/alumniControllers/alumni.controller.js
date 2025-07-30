@@ -96,7 +96,11 @@ export const loginAlumni = async (req, res) => {
     if (!alumni.isVerified) {
       return res.status(403).json({ message: "Account pending verification" });
     }
-
+    if (!alumni.isActive) {
+      return res
+        .status(403)
+        .json({ message: "Your account has been disabled by GBU " });
+    }
     const valid = await bcrypt.compare(credential, alumni.credential || "");
     if (!valid) {
       return res.status(403).json({ message: "Invalid credentials" });
