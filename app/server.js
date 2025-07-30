@@ -55,6 +55,8 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 
 //utils
 import { filterRouter } from "../utils/filterData.js";
+//payU Routes
+import { payURouter } from "../utils/payuMoney.js";
 
 // Route Mounting
 
@@ -78,6 +80,9 @@ app.use("/api/school", schoolRouter);
 
 //utils
 app.use("/api/data", filterRouter);
+
+//PayU Money
+app.use("/api/payU", payURouter);
 
 // Start Server
 const PORT = process.env.PORT;
