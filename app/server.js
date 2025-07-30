@@ -82,7 +82,7 @@ app.use("/api/school", schoolRouter);
 app.use("/api/data", filterRouter);
 
 //PayU Money
-app.use("/api/payU", payURouter);
+// app.use("/api/payU", payURouter);
 
 // Start Server
 const PORT = process.env.PORT;
