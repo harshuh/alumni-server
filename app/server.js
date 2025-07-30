@@ -56,7 +56,7 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 //utils
 import { filterRouter } from "../utils/filterData.js";
 //payU Routes
-import { payURouter } from "../utils/payuMoney.js";
+// import { payURouter } from "../utils/payuMoney.js";
 
 // Route Mounting
 
