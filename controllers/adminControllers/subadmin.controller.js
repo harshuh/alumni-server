@@ -85,3 +85,19 @@ export const subadminLogin = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+/*                               Subadmin Logout                               */
+export const subadminLogout = async (req, res) => {
+  try {
+    res
+      .clearCookie("admintk", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({ message: "admin logged out successfully" });
+  } catch (err) {
+    console.error("Logout Error:", err);
+    res.status(500).json({ error: "Server Error during logout" });
+  }
+};
