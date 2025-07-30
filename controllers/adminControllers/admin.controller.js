@@ -69,3 +69,19 @@ export const adminLogin = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+/*      Admin Logout      */
+export const adminLogout = async (req, res) => {
+  try {
+    res
+      .clearCookie("admintk", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({ message: "Logged out successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+};

@@ -4,11 +4,12 @@ import { rateLimiter } from "../../middlewares/rateLimiter.js";
 import {
   adminSignup,
   adminLogin,
+  adminLogout,
 } from "../../controllers/adminControllers/admin.controller.js";
 
 const adminRouter = Router();
 
 adminRouter.post("/signup", adminSignup);
 adminRouter.post("/login", rateLimiter, adminLogin); // Limits to 10 requests / 15 min
-
+adminRouter.post("/logout", rateLimiter, adminLogout);
 export { adminRouter };
