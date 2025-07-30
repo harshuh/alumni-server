@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 
@@ -164,5 +163,20 @@ export const resetPassword = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: "Invalid or expired token" });
+  }
+};
+
+export const alumniLogout = async (req, res) => {
+  try {
+    res
+      .clearcookies("alumnitk", {
+        httpOnly: true,
+        sameSite: "none",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({ message: "Alumni logged out successfully" });
+  } catch (error) {
+    console.error("Logout Error:", err);
+    res.status(500).json({ error: "Server Error during logout" });
   }
 };
