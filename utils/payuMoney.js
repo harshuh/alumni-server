@@ -40,7 +40,7 @@ router.post("/initiate-payment", async (req, res) => {
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
   const paymentData = {
-    action: `${PAYU_BASE_URL}/_payment`,
+    action: `${process.env.ENVIRONMENT_TEST}`,
     params: {
       key: process.env.PayU_MERCHENT_KEY,
       txnid,
