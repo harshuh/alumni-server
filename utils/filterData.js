@@ -1,5 +1,5 @@
 import express from "express";
-import { adminAuth } from "../middlewares/adminAuth.js";
+
 import { School } from "../models/School/school.model.js";
 
 export const filterRouter = express.Router();
@@ -11,7 +11,7 @@ export const filterRouter = express.Router();
  *   SOM:   ["BBA", "B.Com"]
  * }
  */
-filterRouter.get("/filter", adminAuth, async (req, res) => {
+filterRouter.get("/filter", async (req, res) => {
   try {
     const schools = await School.find({}, "schoolName program").lean();
     const result = {};
