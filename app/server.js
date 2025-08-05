@@ -37,6 +37,9 @@ app.use(
 
 // Route Imports
 
+//Check-Auth
+import { checkRouter } from "../middlewares/checkAuth.js";
+
 // Admin & Subadmin Auth
 import { adminRouter } from "../routes/adminAuthRoutes/admin.route.js";
 import { subadminRouter } from "../routes/adminAuthRoutes/subadmin.route.js";
@@ -56,13 +59,16 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 //utils
 import { filterRouter } from "../utils/filterData.js";
 //payU Routes
-// import { payURouter } from "../utils/payuMoney.js";
+import { payURouter } from "../routes/payU_Routes/payU.routes.js";
 
 // Route Mounting
 
 app.get("/", (req, res) => {
   res.send(" GBU Alumni Portal API Running af");
 });
+
+//check-auth
+app.use("/api", checkRouter);
 
 // Auth Routes
 app.use("/api/root", adminRouter);
@@ -82,7 +88,7 @@ app.use("/api/school", schoolRouter);
 app.use("/api/data", filterRouter);
 
 //PayU Money
-// app.use("/api/payU", payURouter);
+app.use("/api/payU", payURouter);
 
 // Start Server
 const PORT = process.env.PORT;
