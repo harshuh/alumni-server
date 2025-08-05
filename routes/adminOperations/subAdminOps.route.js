@@ -9,7 +9,11 @@ import {
   toggleAlumniStatus,
 } from "../../controllers/PanelControllers/subAdminOps.controller.js";
 
+import { adminAuth } from "../../middlewares/adminAuth.js";
+
 const operationRouter = Router();
+
+operationRouter.use(adminAuth);
 
 // Subadmin Tab
 operationRouter.get("/view-subadmins", subAdminList);
