@@ -68,7 +68,7 @@ app.get("/", (req, res) => {
 });
 
 //check-auth
-app.use("/api", checkRouter);
+app.use("/api/members-only", checkRouter);
 
 // Auth Routes
 app.use("/api/root", adminRouter);
