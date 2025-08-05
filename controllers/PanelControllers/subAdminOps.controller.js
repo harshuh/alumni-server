@@ -15,7 +15,7 @@ export const subAdminList = async (req, res) => {
       name: sa.name,
       username: sa.username,
       schoolName: sa.schoolId?.schoolName || "N/A",
-      active: sa.isActive,
+      status: sa.isActive,
     }));
     res.status(200).json({ entries: data });
   } catch (error) {
