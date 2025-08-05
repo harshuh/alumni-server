@@ -58,8 +58,6 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 
 //utils
 import { filterRouter } from "../utils/filterData.js";
-//payU Routes
-import { payURouter } from "../routes/payU_Routes/payU.routes.js";
 
 // Route Mounting
 
@@ -68,7 +66,6 @@ app.get("/", (req, res) => {
 });
 
 //check-auth
-app.use("/api/members-only", checkRouter);
 
 // Auth Routes
 app.use("/api/root", adminRouter);
@@ -88,7 +85,7 @@ app.use("/api/school", schoolRouter);
 app.use("/api/data", filterRouter);
 
 //PayU Money
-app.use("/api/payU", payURouter);
+app.use("/api/members-only", checkRouter);
 
 // Start Server
 const PORT = process.env.PORT;
