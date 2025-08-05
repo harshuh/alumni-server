@@ -17,8 +17,8 @@ const alumniRouter = Router();
 alumniRouter.post("/register", registerAlumni);
 alumniRouter.post("/login", loginAlumni);
 alumniRouter.put("/profile/update", alumniAuth, updateSocialDetails);
-alumniRouter.post("/forgot-password", sendResetLink);
+alumniRouter.post("/forgot-password", alumniAuth, sendResetLink);
 alumniRouter.post("/forgot-password/reset/:token", resetPassword);
-alumniRouter.post("/logout", alumniLogout);
+alumniRouter.post("/logout", alumniAuth, alumniLogout);
 
 export { alumniRouter };
