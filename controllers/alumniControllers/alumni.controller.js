@@ -184,3 +184,36 @@ export const alumniLogout = async (req, res) => {
     res.status(500).json({ error: "Server Error during logout" });
   }
 };
+
+export const updateSocialDetails = async (req, res) => {
+  try {
+    const alumniId = req.alumni._id;
+    const { worksAt, discription, Insta, linkdin, twitter, github, others } =
+      req.body;
+
+    if (!worksAt || !discription) {
+      return res
+        .status(400)
+        .json({ message: "worksAt and discription required" });
+    }
+
+    const updated = await AlumniSocial.findOneAndUpdate(
+      { _id: alumniId },
+      {
+        worksAt,
+        discription,
+        Insta,
+        linkdin,
+        twitter,
+        github,
+        others,
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+
+    res.json({ message: "Social details updated", entries: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update social details" });
+  }
+};

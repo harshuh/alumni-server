@@ -1,8 +1,12 @@
 // routes/alumniAuthRoutes/alumni.route.mjs
 import { Router } from "express";
+
+import { alumniAuth } from "../../middlewares/alumniAuth.js";
+
 import {
   registerAlumni,
   loginAlumni,
+  updateSocialDetails,
   sendResetLink,
   resetPassword,
   alumniLogout,
@@ -12,6 +16,7 @@ const alumniRouter = Router();
 
 alumniRouter.post("/register", registerAlumni);
 alumniRouter.post("/login", loginAlumni);
+alumniRouter.put("/profile/update", alumniAuth, updateSocialDetails);
 alumniRouter.post("/forgot-password", sendResetLink);
 alumniRouter.post("/forgot-password/reset/:token", resetPassword);
 alumniRouter.post("/logout", alumniLogout);
