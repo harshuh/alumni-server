@@ -28,7 +28,7 @@ export const toggleSubadminStatus = async (req, res) => {
       return res.status(400).json({ message: "Username is required" });
     }
 
-    const subadmin = await Subadmin.exists({ username });
+    const subadmin = await Subadmin.findOne({ username });
     if (!subadmin) {
       return res.status(404).json({ message: "Subadmin not found" });
     }
