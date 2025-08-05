@@ -4,16 +4,18 @@ import { Subadmin } from "../../models/Moderator/subadmin.model.js";
 // subadmin TAB
 export const subAdminList = async (req, res) => {
   try {
-    const subadmin = await Subadmin.find({}, { name: 1, username: 1 }).populate(
-      {
-        path: "schoolId",
-        select: "schoolName",
-      }
-    );
+    const subadmin = await Subadmin.find(
+      {},
+      { name: 1, username: 1, isActive: 1 }
+    ).populate({
+      path: "schoolId",
+      select: "schoolName",
+    });
     const data = subadmin.map((sa) => ({
       name: sa.name,
       username: sa.username,
       schoolName: sa.schoolId?.schoolName || "N/A",
+      active: sa.isActive,
     }));
     res.status(200).json({ entries: data });
   } catch (error) {
