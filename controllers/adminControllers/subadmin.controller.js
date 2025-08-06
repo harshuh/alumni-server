@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { Subadmin } from "../../models/Moderator/subadmin.model.js";
 import { School } from "../../models/School/school.model.js";
 
-const { ADMIN_JWT_SECRET } = process.env;
+const { SUBADMIN_JWT_SECRET } = process.env;
 
 /*                              Subadmin Sign‑up                               */
 
@@ -70,17 +70,17 @@ export const subadminLogin = async (req, res) => {
       return res.status(403).json({ message: "You are disabled by admin" });
     }
     const token = jwt.sign(
-      { id: subadmin._id, role: "subadmin" }, // include role
-      ADMIN_JWT_SECRET,
+      { id: subadmin._id, role: "subadmin" },
+      SUBADMIN_JWT_SECRET,
       { expiresIn: "6h" }
     );
 
     res
-      .cookie("admintk", token, {
+      .cookie("subadmintk", token, {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
-        maxAge: 6 * 60 * 60 * 1000, // 6 hours
+        maxAge: 6 * 60 * 60 * 1000,
       })
       .json({ message: "ok" });
   } catch (err) {
@@ -93,12 +93,12 @@ export const subadminLogin = async (req, res) => {
 export const subadminLogout = async (req, res) => {
   try {
     res
-      .clearCookie("admintk", {
+      .clearCookie("subadmintk", {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
       })
-      .json({ message: "admin logged out successfully" });
+      .json({ message: "Subadmin logged out successfully" });
   } catch (err) {
     console.error("Logout Error:", err);
     res.status(500).json({ error: "Server Error during logout" });

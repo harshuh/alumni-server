@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import jwt from "jsonwebtoken";
-const { ADMIN_JWT_SECRET } = process.env;
+const { ADMIN_JWT_SECRET, SUBADMIN_JWT_SECRET } = process.env;
 
 export function adminAuth(req, res, next) {
   try {
@@ -25,9 +25,31 @@ export function adminAuth(req, res, next) {
     req.adminId = decoded.id; // Attach admin ID to request
     next();
   } catch (err) {
-    console.error("JWT error:", err.message);
+    console.error(" Admin JWT error:", err.message);
     return res.status(419).json({
       message: "Invalid or expired token. Please log in again.",
+    });
+  }
+}
+
+export function subadminAuth(req, res, next) {
+  try {
+    const token = req.cookies?.subadmintk || null;
+    if (!token) {
+      return res.status(403).json({ message: "Subadmin token not provided." });
+    }
+
+    const decoded = jwt.verify(token, SUBADMIN_JWT_SECRET);
+    if (!decoded?.id || decoded.role !== "subadmin") {
+      return res.status(403).json({ message: "Unauthorized subadmin access." });
+    }
+
+    req.subadminId = decoded.id;
+    next();
+  } catch (err) {
+    console.error("Subadmin JWT error:", err.message);
+    return res.status(419).json({
+      message: "Invalid or expired subadmin token. Please log in again.",
     });
   }
 }
