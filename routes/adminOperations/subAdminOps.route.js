@@ -13,16 +13,21 @@ import { adminAuth, subadminAuth } from "../../middlewares/adminAuth.js";
 
 const operationRouter = Router();
 
-operationRouter.use(adminAuth);
+// operationRouter.use(adminAuth);
 
 // Subadmin Tab
-operationRouter.get("/view-subadmins", subAdminList);
-operationRouter.patch("/toggle/:username", toggleSubadminStatus);
-operationRouter.delete("/delete-subadmin/:username", subAdminDelete);
+operationRouter.get("/view-subadmins", adminAuth, subAdminList);
+operationRouter.patch("/toggle/:username", adminAuth, toggleSubadminStatus);
+operationRouter.delete("/delete-subadmin/:username", adminAuth, subAdminDelete);
 
 // Alumni Tab
-operationRouter.get("/view-alumni", [adminAuth, subadminAuth], getAlumni);
-operationRouter.patch("/alumnitoggle/:enrollmentNo", toggleAlumniStatus);
-operationRouter.delete("/delete-alumni/:enrollmentNo", deleteAlumni);
+operationRouter.get("/admin/view-alumni", adminAuth, getAlumni);
+operationRouter.get("/view-alumni", subadminAuth, getAlumni);
+operationRouter.patch(
+  "/alumnitoggle/:enrollmentNo",
+  adminAuth,
+  toggleAlumniStatus
+);
+operationRouter.delete("/delete-alumni/:enrollmentNo", adminAuth, deleteAlumni);
 
 export { operationRouter };

@@ -76,7 +76,7 @@ export const registerAlumni = async (req, res) => {
       rollNo: rollNo.trim(),
       email: email.trim().toLowerCase(),
       phoneNo: phoneNo?.trim(),
-      schoolId: school._id,
+      schoolId: findschool._id,
       yearOfPassing,
       imgOfDegree,
       isVerified: false,
