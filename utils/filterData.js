@@ -13,13 +13,13 @@ export const filterRouter = express.Router();
  */
 filterRouter.get("/filter", async (req, res) => {
   try {
-    const schools = await School.find({}, "schoolName program").lean();
+    const schools = await School.find({}, "schoolName programme").lean();
     const result = {};
-    for (const { schoolName, program } of schools) {
+    for (const { schoolName, programme } of schools) {
       if (!result[schoolName]) {
         result[schoolName] = new Set();
       }
-      result[schoolName].add(program);
+      result[schoolName].add(programme);
     }
     for (const key in result) {
       result[key] = Array.from(result[key]);
