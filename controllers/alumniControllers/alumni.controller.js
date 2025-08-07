@@ -27,37 +27,37 @@ export const registerAlumni = async (req, res) => {
       enrollmentNo,
       rollNo,
       email,
-      phone,
-      schoolName,
-      program,
+      phoneNo,
+      school,
+      programme,
       branch,
       yearOfPassing,
       imgOfDegree,
     } = req.body;
 
-    // if (
-    //   !alumniName ||
-    //   !fatherName ||
-    //   !email ||
-    //   !enrollmentNo ||
-    //   !rollNo ||
-    //   !schoolName ||
-    //   !program ||
-    //   !branch ||
-    //   !yearOfPassing
-    // ) {
-    //   return res.status(400).json({ error: "Missing required fields" });
-    // }
+    if (
+      !alumniName ||
+      !fatherName ||
+      !email ||
+      !enrollmentNo ||
+      !rollNo ||
+      !school ||
+      !programme ||
+      !branch ||
+      !yearOfPassing
+    ) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
 
-    const school = await School.findOne({ schoolName, program, branch });
-    if (!school) {
+    const findschool = await School.findOne({ school, programme, branch });
+    if (!findschool) {
       return res
         .status(404)
-        .json({ error: "School / Program / branch not found" });
+        .json({ error: "School / programme / branch not found" });
     }
 
     const exists = await Alumni.findOne({
-      $or: [{ enrollmentNo }, { phone }, { email }],
+      $or: [{ enrollmentNo }, { phoneNo }, { email }],
     });
     if (exists) {
       return res.status(409).json({ error: "User already registered" });
@@ -71,7 +71,7 @@ export const registerAlumni = async (req, res) => {
       enrollmentNo: enrollmentNo.trim(),
       rollNo: rollNo.trim(),
       email: email.trim().toLowerCase(),
-      phone: phone?.trim(),
+      phoneNo: phoneNo?.trim(),
       schoolId: school._id,
       yearOfPassing,
       imgOfDegree,

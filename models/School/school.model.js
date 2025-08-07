@@ -4,12 +4,12 @@ const { Schema, model } = mongoose;
 
 const SchoolSchema = new Schema(
   {
-    schoolName: {
+    school: {
       type: String,
       required: true,
       trim: true,
     },
-    program: {
+    programme: {
       type: String,
       required: true,
       trim: true,
