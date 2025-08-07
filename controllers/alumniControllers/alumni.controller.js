@@ -43,7 +43,7 @@ export const registerAlumni = async (req, res) => {
       !rollNo ||
       !school ||
       !programme ||
-      !branch ||
+      // !branch ||
       !yearOfPassing
     ) {
       return res.status(400).json({ error: "Missing required fields" });
