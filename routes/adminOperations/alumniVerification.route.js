@@ -3,6 +3,7 @@ import { subadminAuth } from "../../middlewares/adminAuth.js";
 import {
   listPendingAlumni,
   approveAlumni,
+  approvedAlumni,
   rejectAlumni,
 } from "../../controllers/alumniControllers/alumniVerify.controller.js";
 
@@ -11,6 +12,7 @@ const alumniApprovalRouter = Router();
 alumniApprovalRouter.use(subadminAuth);
 
 alumniApprovalRouter.get("/pending-users", listPendingAlumni);
+alumniApprovalRouter.get("/approved-users", approvedAlumni);
 alumniApprovalRouter.post("/approve-user/:enrollmentNo", approveAlumni);
 alumniApprovalRouter.delete("/reject-user/:enrollmentNo", rejectAlumni);
 export { alumniApprovalRouter };

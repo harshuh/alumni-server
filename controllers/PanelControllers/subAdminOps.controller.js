@@ -70,7 +70,12 @@ export const subAdminDelete = async (req, res) => {
 // Alumni TAB
 export const getAlumni = async (req, res) => {
   try {
-    const alumni = await Alumni.find({ isVerified: true }, "-credential");
+    const alumni = await Alumni.find(
+      {
+        $and: [{ isVerified: true }, { isPaid: true }],
+      },
+      "-credential"
+    );
     res.status(200).json({ entries: alumni });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });

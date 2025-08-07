@@ -67,6 +67,15 @@ export const approveAlumni = async (req, res) => {
   }
 };
 
+export const approvedAlumni = async (req, res) => {
+  try {
+    const alumni = await Alumni.find({ isVerified: true }, "-credential");
+    res.status(200).json({ entries: alumni });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error });
+  }
+};
+
 /*                          3. Reject an Alumni Account                       */
 export const rejectAlumni = async (req, res) => {
   try {
