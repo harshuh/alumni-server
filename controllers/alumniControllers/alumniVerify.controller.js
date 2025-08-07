@@ -70,9 +70,13 @@ export const approveAlumni = async (req, res) => {
 /*                          3. Reject an Alumni Account                       */
 export const rejectAlumni = async (req, res) => {
   try {
+    const { rejectReason } = req.body;
+    if (!rejectReason) {
+      return res.status(400).json({ message: "Reason required" });
+    }
     const enrollmentNumber = (req.params.enrollmentNo || "").trim();
     if (!enrollmentNumber) {
-      return res.status(400).json({ message: "enrollmentNo required" });
+      return res.status(400).json({ message: "EnrollmentNo required" });
     }
 
     const alumni = await Alumni.findOneAndDelete({
@@ -89,6 +93,7 @@ export const rejectAlumni = async (req, res) => {
       html: `
         <h2>Hello, ${alumni.alumniName || "Applicant"}</h2>
         <p>We regret to inform you that your registration was rejected.</p>
+        <p>The Reason is : ${rejectReason}</p>
         <p>If you believe this is an error, please contact support.</p>
       `,
     });
