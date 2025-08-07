@@ -9,7 +9,7 @@ import {
   toggleAlumniStatus,
 } from "../../controllers/PanelControllers/subAdminOps.controller.js";
 
-import { adminAuth } from "../../middlewares/adminAuth.js";
+import { adminAuth, subadminAuth } from "../../middlewares/adminAuth.js";
 
 const operationRouter = Router();
 
@@ -21,7 +21,7 @@ operationRouter.patch("/toggle/:username", toggleSubadminStatus);
 operationRouter.delete("/delete-subadmin/:username", subAdminDelete);
 
 // Alumni Tab
-operationRouter.get("/view-alumni", getAlumni);
+operationRouter.get("/view-alumni", [adminAuth, subadminAuth], getAlumni);
 operationRouter.patch("/alumnitoggle/:enrollmentNo", toggleAlumniStatus);
 operationRouter.delete("/delete-alumni/:enrollmentNo", deleteAlumni);
 
