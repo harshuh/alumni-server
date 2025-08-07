@@ -4,7 +4,7 @@ const { Schema, model } = mongoose;
 
 const SchoolSchema = new Schema(
   {
-    school: {
+    schoolName: {
       type: String,
       required: true,
       trim: true,
@@ -27,6 +27,9 @@ const SchoolSchema = new Schema(
 );
 
 // Prevent duplicate entries with same name + program + branch
-SchoolSchema.index({ schoolName: 1, program: 1, branch: 1 }, { unique: true });
+SchoolSchema.index(
+  { schoolName: 1, programme: 1, branch: 1 },
+  { unique: true }
+);
 
 export const School = model("School", SchoolSchema);

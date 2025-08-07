@@ -50,7 +50,11 @@ export const registerAlumni = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const findschool = await School.findOne({ school, programme, branch });
+    const findschool = await School.findOne({
+      schoolName: school,
+      programme,
+      branch,
+    });
     if (!findschool) {
       return res
         .status(404)
