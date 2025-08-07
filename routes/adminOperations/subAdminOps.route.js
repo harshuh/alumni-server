@@ -22,7 +22,7 @@ operationRouter.delete("/delete-subadmin/:username", adminAuth, subAdminDelete);
 
 // Alumni Tab
 operationRouter.get("/admin/activeUsers", adminAuth, getAlumni);
-operationRouter.get("/acitveUsers", subadminAuth, getAlumni);
+operationRouter.get("/activeUsers", subadminAuth, getAlumni);
 operationRouter.patch(
   "/alumnitoggle/:enrollmentNo",
   adminAuth,
