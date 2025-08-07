@@ -46,7 +46,7 @@ const AlumniSchema = new Schema(
     credential: {
       type: String,
     },
-    phone: {
+    phoneNo: {
       type: String,
       required: true,
       trim: true,

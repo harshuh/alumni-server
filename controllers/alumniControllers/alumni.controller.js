@@ -39,7 +39,6 @@ export const registerAlumni = async (req, res) => {
       !alumniName ||
       !fatherName ||
       !email ||
-      !phoneNo ||
       !enrollmentNo ||
       !rollNo ||
       !school ||

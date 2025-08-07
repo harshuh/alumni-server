@@ -7,26 +7,26 @@ import { School } from "../../models/School/school.model.js";
 
 export const createSchool = async (req, res) => {
   try {
-    const { schoolName, program, branch } = req.body;
+    const { schoolName, programme, branch } = req.body;
 
-    if (!schoolName || !program || !branch) {
+    if (!schoolName || !programme || !branch) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const dupe = await School.findOne({ schoolName, program, branch });
+    const dupe = await School.findOne({ schoolName, programme, branch });
     if (dupe) {
       return res.status(409).json({
-        error: `${schoolName} with this ${branch} already exists in ${program}`,
+        error: `${schoolName} with this ${branch} already exists in ${programme}`,
       });
     }
 
     await School.create({
       schoolName: schoolName.trim(),
-      program: program.trim(),
+      programme: programme.trim(),
       branch: branch.trim(),
     });
     res.status(201).json({
-      message: `${branch} branch under ${program} has been added to ${schoolName}`,
+      message: `${branch} branch under ${programme} has been added to ${schoolName}`,
     });
   } catch (err) {
     console.error(err);
@@ -40,7 +40,7 @@ export const listOfSchools = async (req, res) => {
   try {
     const schools = await School.find(
       {},
-      { schoolName: 1, program: 1, branch: 1 }
+      { schoolName: 1, programme: 1, branch: 1 }
     );
     res.status(200).json({ data: schools });
   } catch (err) {
