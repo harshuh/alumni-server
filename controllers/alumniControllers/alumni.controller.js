@@ -35,16 +35,19 @@ export const registerAlumni = async (req, res) => {
       imgOfDegree,
     } = req.body;
 
-    if (
-      !alumniName ||
-      !email ||
-      !enrollmentNo ||
-      !rollNo ||
-      !schoolName ||
-      !program
-    ) {
-      return res.status(400).json({ error: "Missing required fields" });
-    }
+    // if (
+    //   !alumniName ||
+    //   !fatherName ||
+    //   !email ||
+    //   !enrollmentNo ||
+    //   !rollNo ||
+    //   !schoolName ||
+    //   !program ||
+    //   !branch ||
+    //   !yearOfPassing
+    // ) {
+    //   return res.status(400).json({ error: "Missing required fields" });
+    // }
 
     const school = await School.findOne({ schoolName, program, branch });
     if (!school) {
