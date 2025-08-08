@@ -79,7 +79,7 @@ export const registerAlumni = async (req, res) => {
       schoolId: findschool._id,
       yearOfPassing,
       // imgOfDegree,
-      isVerified: false,
+      // isVerified: false,
     });
 
     res.status(201).json({ message: "Registration submitted for approval." });
