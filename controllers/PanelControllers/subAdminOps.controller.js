@@ -70,9 +70,14 @@ export const subAdminDelete = async (req, res) => {
 // Alumni TAB
 export const getAlumni = async (req, res) => {
   try {
-    const alumni = await Alumni.find({
-      $and: [{ isVerified: true }, { isPaid: true }],
-    })
+    const alumni = await Alumni.find(
+      {
+        $and: [{ isVerified: true }, { isPaid: true }],
+      },
+      {
+        credential: 0,
+      }
+    )
       .populate({
         path: "schoolId",
         select: "schoolName",
