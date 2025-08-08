@@ -95,14 +95,16 @@ export const getAlumni = async (req, res) => {
 
 export const toggleAlumniStatus = async (req, res) => {
   try {
-    const enrollmentNo = (req.params.enrollmentNo || "").trim();
-    if (!enrollmentNo) {
-      return res.status(400).json({ message: "Enrollment number is required" });
+    const rollNo = (req.params.rollNo || "").trim();
+    if (!rollNo) {
+      return res.status(400).json({ message: "Roll number is required" });
     }
 
-    const alumni = await Alumni.findOne({ enrollmentNo });
+    const alumni = await Alumni.findOne({ rollNo });
     if (!alumni) {
-      return res.status(404).json({ message: "Alumni not found" });
+      return res
+        .status(404)
+        .json({ message: "Alumni not found (Roll No. Invalid)" });
     }
 
     alumni.isActive = !alumni.isActive;
