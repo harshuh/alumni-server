@@ -36,12 +36,14 @@ export function subadminAuth(req, res, next) {
   try {
     const token = req.cookies?.subadmintk || null;
     if (!token) {
-      return res.status(403).json({ message: "Subadmin token not provided." });
+      return res.status(403).json({ message: "No token provided." });
     }
 
     const decoded = jwt.verify(token, SUBADMIN_JWT_SECRET);
     if (!decoded?.id || decoded.role !== "subadmin") {
-      return res.status(403).json({ message: "Unauthorized subadmin access." });
+      return res
+        .status(403)
+        .json({ message: "Invalid token. Unauthorized access" });
     }
 
     req.subadminId = decoded.id;

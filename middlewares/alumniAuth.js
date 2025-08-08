@@ -10,7 +10,7 @@ export function alumniAuth(req, res, next) {
     const token = req.cookies?.alumnitk || null;
 
     if (!token) {
-      return res.status(403).json({ message: "No Alumni token provided." });
+      return res.status(403).json({ message: "No token provided." });
     }
 
     const decoded = jwt.verify(token, ALUMNI_JWT_SECRET);
