@@ -15,19 +15,19 @@ export const subadminSignup = async (req, res) => {
     const credential = (req.body.credential || "").trim();
 
     if (!schoolName || !name || !username || !credential) {
-      return res.status(400).json({ error: "Invalid input data" });
+      return res.status(400).json({ message: "Invalid input data" });
     }
 
     const schoolDoc = await School.findOne({ schoolName });
     if (!schoolDoc) {
-      return res.status(400).json({ error: "Invalid school name" });
+      return res.status(400).json({ messages: "Invalid school name" });
     }
 
     const usernameTaken = await Subadmin.findOne({ username });
     if (usernameTaken) {
       return res
         .status(400)
-        .json({ error: "Sub admin with this username already exists" });
+        .json({ message: "Sub admin with this username already exists" });
     }
 
     const hashed = await bcrypt.hash(credential, 10);
