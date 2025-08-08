@@ -32,7 +32,7 @@ export const registerAlumni = async (req, res) => {
       programme,
       branch,
       yearOfPassing,
-      imgOfDegree,
+      // imgOfDegree,
     } = req.body;
 
     if (
@@ -78,7 +78,7 @@ export const registerAlumni = async (req, res) => {
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
       yearOfPassing,
-      imgOfDegree,
+      // imgOfDegree,
       isVerified: false,
     });
 
