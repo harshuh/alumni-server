@@ -9,7 +9,7 @@ const { SUBADMIN_JWT_SECRET } = process.env;
 
 export const subadminSignup = async (req, res) => {
   try {
-    const schoolName = (req.body.school || "").trim();
+    const schoolName = (req.body.schoolName || "").trim();
     const name = (req.body.name || "").trim();
     const username = (req.body.username || "").trim();
     const credential = (req.body.credential || "").trim();
