@@ -74,8 +74,7 @@ export const getAlumni = async (req, res) => {
       {
         $and: [{ isVerified: true }, { isPaid: true }],
       },
-      { isActive: true },
-      "-credential"
+      { isActive: 1, credential: 0 }
     );
 
     res.status(200).json({ entries: alumni });
