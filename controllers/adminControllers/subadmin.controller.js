@@ -72,7 +72,7 @@ export const subadminLogin = async (req, res) => {
     const token = jwt.sign(
       { id: subadmin._id, role: "subadmin" },
       SUBADMIN_JWT_SECRET,
-      { expiresIn: "6h" }
+      { expiresIn: "2h" }
     );
 
     res
@@ -80,7 +80,7 @@ export const subadminLogin = async (req, res) => {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
-        maxAge: 6 * 60 * 60 * 1000,
+        maxAge: 2 * 60 * 60 * 1000,
       })
       .json({ message: "ok" });
   } catch (err) {
