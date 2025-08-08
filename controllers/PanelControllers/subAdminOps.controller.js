@@ -72,10 +72,13 @@ export const getAlumni = async (req, res) => {
   try {
     const alumni = await Alumni.find({
       $and: [{ isVerified: true }, { isPaid: true }],
-    }).lean();
+    }).populate({
+      path: "schoolId",
+      select: "schoolName",
+    });
     const data = alumni.map((a) => ({
       ...a,
-      isActive: a.isActive,
+      status: a.isActive,
     }));
     res.status(200).json({ entries: data });
   } catch (error) {
