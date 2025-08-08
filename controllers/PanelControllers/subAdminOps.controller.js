@@ -77,12 +77,7 @@ export const getAlumni = async (req, res) => {
       {
         credential: 0,
       }
-    )
-      .populate({
-        path: "schoolId",
-        select: "schoolName",
-      })
-      .lean();
+    ).lean();
     const data = alumni.map((a) => ({
       ...a,
       schoolName: a.schoolId?.schoolName || "N/A",
