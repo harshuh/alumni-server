@@ -79,13 +79,13 @@ export const registerAlumni = async (req, res) => {
       schoolId: findschool._id,
       yearOfPassing,
       imgOfDegree,
-      // isVerified: false,
+      isVerified: false,
     });
 
     res.status(201).json({ message: "Registration submitted for approval." });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Registration failed" });
+    res.status(500).json({ message: "Registration failed" });
   }
 };
 
