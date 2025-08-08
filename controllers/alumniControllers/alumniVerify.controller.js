@@ -73,10 +73,22 @@ export const approvedAlumni = async (req, res) => {
       {
         $and: [{ isVerified: true }, { isPaid: false }],
       },
-      "-credential"
-    );
+      {
+        credential: 0,
+      }
+    )
+      .populate({
+        path: "schoolId",
+        select: "schoolName",
+      })
+      .lean();
+    const data = alumni.map((a) => ({
+      ...a,
+      schoolName: a.schoolId?.schoolName || "N/A",
+      status: a.isActive,
+    }));
 
-    res.status(200).json({ entries: alumni });
+    res.status(200).json({ entries: data });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });
   }
