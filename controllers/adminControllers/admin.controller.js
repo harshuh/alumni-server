@@ -53,7 +53,7 @@ export const adminLogin = async (req, res) => {
     }
 
     const token = jwt.sign({ id: admin._id, role: "admin" }, ADMIN_JWT_SECRET, {
-      expiresIn: "45m",
+      expiresIn: "1m",
     });
 
     res
@@ -61,7 +61,7 @@ export const adminLogin = async (req, res) => {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
-        maxAge: 45 * 60 * 1000, // 15 minutes for admin
+        maxAge: 1 * 60 * 1000, // 1 minutes for admin
       })
       .json({ message: "ok" });
   } catch (err) {
