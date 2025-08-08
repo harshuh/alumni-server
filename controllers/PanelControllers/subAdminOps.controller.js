@@ -74,11 +74,11 @@ export const getAlumni = async (req, res) => {
       {
         $and: [{ isVerified: true }, { isPaid: true }],
       },
-      // { isActive: true },
+      { isActive: true },
       "isActive -credential"
     );
 
-    res.status(200).json({ entries: al });
+    res.status(200).json({ entries: alumni });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error });
   }
