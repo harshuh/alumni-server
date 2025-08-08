@@ -46,7 +46,7 @@ export const registerAlumni = async (req, res) => {
       !branch ||
       !yearOfPassing
     ) {
-      return res.status(400).json({ error: "Missing required fields" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
     const findschool = await School.findOne({
@@ -57,7 +57,7 @@ export const registerAlumni = async (req, res) => {
     if (!findschool) {
       return res
         .status(404)
-        .json({ error: "School / programme / branch not found" });
+        .json({ message: "School / programme / branch not found" });
     }
 
     const exists = await Alumni.findOne({
@@ -79,7 +79,7 @@ export const registerAlumni = async (req, res) => {
       schoolId: findschool._id,
       yearOfPassing,
       imgOfDegree,
-      isVerified: false,
+      // isVerified: false,
     });
 
     res.status(201).json({ message: "Registration submitted for approval." });
