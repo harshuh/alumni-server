@@ -65,6 +65,10 @@ const AlumniSchema = new Schema(
       type: String,
       // required: true,
     },
+    alumnipfp: {
+      type: String,
+      // required: true,
+    },
     isPaid: {
       type: Boolean,
       default: false,
