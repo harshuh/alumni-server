@@ -11,5 +11,5 @@ import {
 export const payuRouter = Router();
 
 payuRouter.post("/pay/:email", initiatePayment);
-payuRouter.post("/pay/success", paymentSuccess);
-payuRouter.post("/pay/failure", paymentFailure);
+payuRouter.post("/success", paymentSuccess);
+payuRouter.post("/failure", paymentFailure);
