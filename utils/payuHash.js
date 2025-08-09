@@ -18,12 +18,12 @@ export const generateHash = async ({ email }, salt) => {
     email: user.email,
     phone: user.phoneNo,
     udf1: user.enrollmentNo,
-    udf2: user.phoneNo,
+
     surl: "https://gbu-alumniserver.vercel.app/api/payu/pay/success", // success URL
     furl: "https://gbu-alumniserver.vercel.app/api/payu/pay/failure", // failure URL
   };
 
-  const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|${params.phone}|${params.udf1}|${params.udf2}||||||||${salt}`;
+  const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|${params.phone}|${params.udf1}||||||||||${salt}`;
 
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
