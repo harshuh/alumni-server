@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { Alumni } from "../models/Alumni/alumniData.model.js";
 
-export const generateHash = async ({ email }, salt) => {
+export const generateHash = async (email, salt) => {
   const user = await Alumni.findOne({ email: email });
 
   if (!user) {
@@ -27,19 +27,21 @@ export const generateHash = async ({ email }, salt) => {
     firstname: user.alumniName,
     email: user.email,
     phone: user.phoneNo,
-    surl: "https://gbu-alumniserver.vercel.app/api/payu/success",
-    furl: "https://gbu-alumniserver.vercel.app/api/payu/failure",
+    surl: "https://gbu-alumniserver.vercel.app/api/payu/pay/success",
+    furl: "https://gbu-alumniserver.vercel.app/api/payu/pay/failure",
+    udf1,
+    udf2,
+    udf3,
+    udf4,
+    udf5,
   };
 
-  // Hash as per PayU format:
-  // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT)
   const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${salt}`;
-
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
-  console.log("Hash String:", hashString);
-  console.log("Hash:", hash);
-  console.log("Params:", params);
+  // console.log("Forward Hash String:", hashString);
+  console.log("Generated Hash:", hash);
+  console.log("params of genrate hash", params);
 
   return { hash, params };
 };
