@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { Alumni } from "../models/Alumni/alumniData.model.js";
 
 export const generateHash = async ({ email }, salt) => {
-  const user = await Alumni.findOne({ email });
+  const user = await Alumni.findOne({ email: email });
 
   if (!user) {
     throw new Error("User not found");

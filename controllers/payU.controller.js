@@ -61,66 +61,67 @@ const verifyPayUHash = (postedData) => {
 
 export const paymentSuccess = async (req, res) => {
   const postedData = req.body;
+  console.log(req.body);
   console.log("Payment Success Data:", postedData);
 
   // 1. Validate fields exist
-  if (!postedData.email || !postedData.txnid || !postedData.amount) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required payment data",
-    });
-  }
+  // if (!postedData.email || !postedData.txnid || !postedData.amount) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: "Missing required payment data",
+  //   });
+  // }
 
-  // 2. Verify hash
-  if (!verifyPayUHash(postedData)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid payment data - Hash mismatch",
-    });
-  }
+  // // 2. Verify hash
+  // if (!verifyPayUHash(postedData)) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: "Invalid payment data - Hash mismatch",
+  //   });
+  // }
 
-  try {
-    // 3. Find and update only if not already paid
-    const updated = await Alumni.findOneAndUpdate(
-      { email: postedData.email, isVerified: true, isPaid: false },
-      {
-        $set: {
-          isPaid: true,
-          paymentTxnId: postedData.txnid,
-          paymentAmount: postedData.amount,
-          paymentStatus: postedData.status,
-          paymentDate: new Date(),
-        },
-      },
-      { new: true }
-    );
+  // try {
+  //   // 3. Find and update only if not already paid
+  //   const updated = await Alumni.findOneAndUpdate(
+  //     { email: postedData.email, isVerified: true, isPaid: false },
+  //     {
+  //       $set: {
+  //         isPaid: true,
+  //         paymentTxnId: postedData.txnid,
+  //         paymentAmount: postedData.amount,
+  //         paymentStatus: postedData.status,
+  //         paymentDate: new Date(),
+  //       },
+  //     },
+  //     { new: true }
+  //   );
 
-    if (!updated) {
-      return res.status(404).json({
-        success: false,
-        message: "Alumni not found or already marked as paid",
-      });
-    }
+  //   if (!updated) {
+  //     return res.status(404).json({
+  //       success: false,
+  //       message: "Alumni not found or already marked as paid",
+  //     });
+  //   }
 
-    res.status(200).json({
-      success: true,
-      message: "Payment successfully verified and recorded",
-      data: {
-        email: updated.email,
-        txnid: updated.paymentTxnId,
-        amount: updated.paymentAmount,
-        status: updated.paymentStatus,
-        date: updated.paymentDate,
-      },
-    });
-  } catch (err) {
-    console.error("Error updating payment status:", err);
-    res.status(500).json({
-      success: true,
-      message: "Payment verified but failed to update DB",
-      error: err.message,
-    });
-  }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "Payment successfully verified and recorded",
+  //     data: {
+  //       email: updated.email,
+  //       txnid: updated.paymentTxnId,
+  //       amount: updated.paymentAmount,
+  //       status: updated.paymentStatus,
+  //       date: updated.paymentDate,
+  //     },
+  //   });
+  // } catch (err) {
+  //   console.error("Error updating payment status:", err);
+  //   res.status(500).json({
+  //     success: true,
+  //     message: "Payment verified but failed to update DB",
+  //     error: err.message,
+  //   });
+  // }
 };
 
 // Failure Callback
