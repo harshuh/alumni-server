@@ -13,6 +13,12 @@ export const generateHash = async ({ email }, salt) => {
   const amount = "1000.00";
   const productinfo = "Alumni Membership";
 
+  const udf1 = "";
+  const udf2 = "";
+  const udf3 = "";
+  const udf4 = "";
+  const udf5 = "";
+
   const params = {
     key,
     txnid,
@@ -25,10 +31,13 @@ export const generateHash = async ({ email }, salt) => {
     furl: "https://gbu-alumniserver.vercel.app/api/payu/pay/failure",
   };
 
-  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${user.phoneNo}|||||||||||${salt}`;
+  // Hash as per PayU format:
+  // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT)
+  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${salt}`;
 
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
+  console.log("Hash String:", hashString);
   console.log("Hash:", hash);
   console.log("Params:", params);
 
