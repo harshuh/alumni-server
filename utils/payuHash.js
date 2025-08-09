@@ -8,7 +8,7 @@ export const generateHash = async ({ email }, salt) => {
     throw new Error("User not found");
   }
 
-  const key = process.env.PAYU_MERCHANT_KEY;
+  const key = process.env.PayU_MERCHENT_KEY;
   const txnid = `txn_${Date.now()}`;
   const amount = "1000.00";
   const productinfo = "Alumni Membership";
