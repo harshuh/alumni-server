@@ -34,7 +34,7 @@ export const approveAlumni = async (req, res) => {
 
     const alumni = await Alumni.findOne({ enrollmentNo: enrollmentNumber });
     if (!alumni) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(400).json({ message: "User not found" });
     }
 
     /* Generate a temporary password (replace with a stronger generator in prod) */
