@@ -7,7 +7,7 @@ export const initiatePayment = async (req, res) => {
 
     const { hash, params } = await generateHash({ email }, salt);
 
-    const paymentUrl = "https://test.payu.in/_payment";
+    const paymentUrl = process.env.ENVIRONMENT_TEST;
 
     res.status(200).json({
       ...params,
