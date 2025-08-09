@@ -38,7 +38,8 @@ export const approveAlumni = async (req, res) => {
     }
 
     /* Generate a temporary password (replace with a stronger generator in prod) */
-    const tempCredential = Math.random().toString(36).slice(-8);
+    // const tempCredential = Math.random().toString(36).slice(-8);
+    const tempCredential = "10";
     const hashedTempCredential = await bcrypt.hash(tempCredential, 10);
 
     alumni.isVerified = true;
