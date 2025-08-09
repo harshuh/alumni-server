@@ -10,8 +10,8 @@ export const initiatePayment = async (req, res) => {
     const paymentUrl = "https://test.payu.in/_payment";
 
     res.status(200).json({
+      ...params,
       paymentUrl,
-      params,
       hash,
     });
   } catch (error) {
