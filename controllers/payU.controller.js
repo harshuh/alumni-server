@@ -75,7 +75,7 @@ export const paymentSuccess = async (req, res) => {
   try {
     // 3. Find and update only if not already paid
     const updated = await Alumni.findOneAndUpdate(
-      { email: postedData.email, isPaid: false },
+      { email: postedData.email, isVerified: true, isPaid: false },
       {
         $set: {
           isPaid: true,
