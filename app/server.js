@@ -12,6 +12,7 @@ await connectDatabase();
 const app = express();
 
 // Middlewares
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 

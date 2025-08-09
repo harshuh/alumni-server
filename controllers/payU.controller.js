@@ -15,30 +15,15 @@ export const initiatePayment = async (req, res) => {
     const formFields = {
       ...params,
       hash,
+      paymentUrl,
       service_provider: "payu_paisa",
     };
 
-    const formHtml = `
-      <html>
-        <body onload="document.forms['payuForm'].submit()">
-          <form id="payuForm" method="post" action="${paymentUrl}">
-            ${Object.entries(formFields)
-              .map(
-                ([key, value]) =>
-                  `<input type="hidden" name="${key}" value="${String(
-                    value
-                  ).replace(/"/g, "&quot;")}" />`
-              )
-              .join("")}
-          </form>
-          <p>Redirecting to payment gateway...</p>
-        </body>
-      </html>
-    `;
-
-    res.status(200).send(formHtml);
+    res.status(200).json({
+      formFields,
+    });
   } catch (error) {
-    console.error("Error initiating payment:", error);
+    console.log("Error initiating payment:", error);
     res.status(400).json({ error: "Unable to initiate payment" });
   }
 };
@@ -46,30 +31,52 @@ export const initiatePayment = async (req, res) => {
 // Verify PayU hash after payment
 const verifyPayUHash = (postedData) => {
   const salt = process.env.PayU_MERCHENT_SALT_V2;
+  const key = postedData.key;
+  const txnid = postedData.txnid;
+  const amount = postedData.amount;
+  const productinfo = postedData.productinfo;
+  const firstname = postedData.firstname;
+  const email = postedData.email;
+  const udf1 = postedData.udf1 || "";
+  const udf2 = postedData.udf2 || "";
+  const udf3 = postedData.udf3 || "";
+  const udf4 = postedData.udf4 || "";
+  const udf5 = postedData.udf5 || "";
+  const status = postedData.status;
 
-  const hashString = `${salt}|${postedData.status}||||||${postedData.udf5}|${postedData.udf4}|${postedData.udf3}|${postedData.udf2}|${postedData.udf1}|${postedData.email}|${postedData.firstname}|${postedData.productinfo}|${postedData.amount}|${postedData.txnid}|${postedData.key}`;
+  // PayU reverse hash format for verification
+  const hashString = `${salt}|${status}||||||${udf5}|${udf4}|${udf3}|${udf2}|${udf1}|${email}|${firstname}|${productinfo}|${amount}|${txnid}|${key}`;
 
   const calculatedHash = crypto
     .createHash("sha512")
     .update(hashString)
     .digest("hex");
 
+  console.log("Expected hash:", postedData.hash);
+  console.log("Calculated hash:", calculatedHash);
+  console.log("Hash string used:", hashString);
+
   return calculatedHash === postedData.hash;
 };
 
-// Success Callback
 export const paymentSuccess = async (req, res) => {
   const postedData = req.body;
   console.log("Payment Success Data:", postedData);
 
   // 1. Validate fields exist
   if (!postedData.email || !postedData.txnid || !postedData.amount) {
-    return res.status(400).send("Missing required payment data");
+    return res.status(400).json({
+      success: false,
+      message: "Missing required payment data",
+    });
   }
 
   // 2. Verify hash
   if (!verifyPayUHash(postedData)) {
-    return res.status(400).send("Invalid payment data - Hash mismatch");
+    return res.status(400).json({
+      success: false,
+      message: "Invalid payment data - Hash mismatch",
+    });
   }
 
   try {
@@ -89,13 +96,30 @@ export const paymentSuccess = async (req, res) => {
     );
 
     if (!updated) {
-      return res.status(404).send("Alumni not found or already marked as paid");
+      return res.status(404).json({
+        success: false,
+        message: "Alumni not found or already marked as paid",
+      });
     }
 
-    res.send("Payment successfully verified and recorded");
+    res.status(200).json({
+      success: true,
+      message: "Payment successfully verified and recorded",
+      data: {
+        email: updated.email,
+        txnid: updated.paymentTxnId,
+        amount: updated.paymentAmount,
+        status: updated.paymentStatus,
+        date: updated.paymentDate,
+      },
+    });
   } catch (err) {
     console.error("Error updating payment status:", err);
-    res.status(500).send("Payment verified but failed to update DB");
+    res.status(500).json({
+      success: true,
+      message: "Payment verified but failed to update DB",
+      error: err.message,
+    });
   }
 };
 
@@ -106,10 +130,12 @@ export const paymentFailure = async (req, res) => {
 
   // Validate and verify hash
   if (!postedData.email || !verifyPayUHash(postedData)) {
-    return res.status(400).send("Invalid payment data - Hash mismatch");
+    return res.status(400).json({
+      success: false,
+      message: "Invalid payment data - Hash mismatch",
+    });
   }
 
-  // Optionally record failed attempt
   try {
     await Alumni.findOneAndUpdate(
       { email: postedData.email },
@@ -121,9 +147,24 @@ export const paymentFailure = async (req, res) => {
         },
       }
     );
+
+    res.status(200).json({
+      success: false,
+      message: "Payment failed but verified",
+      data: {
+        email: postedData.email,
+        txnid: postedData.txnid,
+        amount: postedData.amount,
+        status: postedData.status,
+        date: new Date(),
+      },
+    });
   } catch (err) {
     console.error("Error recording failed payment:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error recording failed payment",
+      error: err.message,
+    });
   }
-
-  res.send("Payment failed but verified");
 };
