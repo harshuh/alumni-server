@@ -1,5 +1,4 @@
 import crypto from "crypto";
-
 import { Alumni } from "../models/Alumni/alumniData.model.js";
 
 export const generateHash = async ({ email }, salt) => {
@@ -9,30 +8,29 @@ export const generateHash = async ({ email }, salt) => {
     throw new Error("User not found");
   }
 
+  const key = process.env.PAYU_MERCHANT_KEY;
+  const txnid = `txn_${Date.now()}`;
+  const amount = "1000.00";
+  const productinfo = "Alumni Membership";
+
   const params = {
-    key: process.env.PayU_MERCHENT_KEY,
-    txnid: `txn_${Date.now()}`,
-    amount: "1000.00",
-    productinfo: "Alumni Membership",
+    key,
+    txnid,
+    amount,
+    productinfo,
     firstname: user.alumniName,
     email: user.email,
     phone: user.phoneNo,
-    udf1: udf1 || "",
-    udf2: udf2 || "",
-    udf3: udf3 || "",
-    udf4: udf4 || "",
-    udf5: udf5 || "",
-
-    surl: "https://gbu-alumniserver.vercel.app/api/payu/pay/success", // success URL
-    furl: "https://gbu-alumniserver.vercel.app/api/payu/pay/failure", // failure URL
+    surl: "https://gbu-alumniserver.vercel.app/api/payu/pay/success",
+    furl: "https://gbu-alumniserver.vercel.app/api/payu/pay/failure",
   };
 
-  const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|${params.phone}|${params.udf1}|${params.udf2}|${params.udf3}|${params.udf4}|${params.udf5}||||||${salt}`;
+  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${user.phoneNo}|||||||||||${salt}`;
 
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
-  console.log("hash", hash);
-  console.log("param", params);
+  console.log("Hash:", hash);
+  console.log("Params:", params);
 
   return { hash, params };
 };
