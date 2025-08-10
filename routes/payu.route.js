@@ -4,7 +4,6 @@ import {
   handlePaymentFailure,
   initiatePayment,
 } from "../controllers/payU.controller.js";
-import { publicCors, restrictedCors } from "../config/cors.config.js";
 
 export const payuRouter = Router();
 
