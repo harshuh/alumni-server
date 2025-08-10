@@ -5,6 +5,7 @@ export const allowedOrigins = [
   "https://alumni-gbu.vercel.app",
   "http://localhost:5173",
   "https://test.payu.in/_payment",
+  "https://gbu-alumniserver.vercel.app",
 ];
 
 // Public CORS (open to all origins)
