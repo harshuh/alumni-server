@@ -103,3 +103,9 @@ export const handlePaymentSuccess = async (req, res) => {
     return res.status(500).json({ error: "Payment verification failed." });
   }
 };
+
+export const handlePaymentFailure = (req, res) => {
+  const { body } = req;
+  // Handle failure logic
+  res.status(400).json({ message: "Payment failed", data: body });
+};
