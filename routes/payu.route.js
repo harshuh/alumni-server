@@ -1,26 +1,19 @@
 import { Router } from "express";
-import cors from "cors";
 import {
   handlePaymentSuccess,
   handlePaymentFailure,
   initiatePayment,
 } from "../controllers/payU.controller.js";
+import { publicCors, restrictedCors } from "../config/cors.config.js";
 
 export const payuRouter = Router();
 
-// Public CORS (open for all origins)
-const publicCors = cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
-});
-
-// --- Public routes ---
+// --- Public PayU routes ---
 payuRouter.post("/success", publicCors, handlePaymentSuccess);
 payuRouter.post("/failure", publicCors, handlePaymentFailure);
 
-// --- Restricted routes (inherit from global CORS in server.mjs) ---
-payuRouter.post("/initiate-payment", initiatePayment);
+// --- Restricted PayU route ---
+payuRouter.post("/initiate-payment", restrictedCors, initiatePayment);
 
 // ===========  Harsh's code below  ===========
 

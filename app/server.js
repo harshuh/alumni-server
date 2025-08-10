@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import { connectDatabase } from "../config/connectDB.js";
+import { restrictedCors } from "../config/cors.config.js";
 
 // Route Imports
 import { checkRouter } from "../middlewares/checkAuth.js";
@@ -30,55 +30,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// Global restricted CORS
-const allowedOrigins = [
-  "https://alumni-gbu.vercel.app",
-  "http://localhost:5173",
-  "https://test.payu.in/_payment",
-];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
-  })
-);
-
 // Root test route
 app.get("/", (req, res) => {
   res.send("GBU Alumni Portal API Running af");
 });
 
-// Auth Routes
-app.use("/api/root", adminRouter);
-app.use("/api/subadmin", subadminRouter);
-app.use("/api/alumni", alumniRouter);
+// Auth Routes (Restricted)
+app.use("/api/root", restrictedCors, adminRouter);
+app.use("/api/subadmin", restrictedCors, subadminRouter);
+app.use("/api/alumni", restrictedCors, alumniRouter);
 
-// Admin Operations
-app.use("/api/panel", operationRouter);
-app.use("/api/alumnicard", alumniCardRouter);
-app.use("/api/approval", alumniApprovalRouter);
+// Admin Operations (Restricted)
+app.use("/api/panel", restrictedCors, operationRouter);
+app.use("/api/alumnicard", restrictedCors, alumniCardRouter);
+app.use("/api/approval", restrictedCors, alumniApprovalRouter);
 
-// School & Events
-app.use("/api/events", eventRouter);
-app.use("/api/school", schoolRouter);
+// School & Events (Restricted)
+app.use("/api/events", restrictedCors, eventRouter);
+app.use("/api/school", restrictedCors, schoolRouter);
 
-// Utils
-app.use("/api/data", filterRouter);
-app.use("/api/user", stausRouter);
+// Utils (Restricted)
+app.use("/api/data", restrictedCors, filterRouter);
+app.use("/api/user", restrictedCors, stausRouter);
 
-// PayU routes (handles its own CORS rules internally)
+// PayU (handles its own CORS inside payuRouter)
 app.use("/api/payment", payuRouter);
 
-// Auth verification
-app.use("/api/members-only", checkRouter);
+// Auth verification (Restricted)
+app.use("/api/members-only", restrictedCors, checkRouter);
 
 // Start Server
 const PORT = process.env.PORT;
