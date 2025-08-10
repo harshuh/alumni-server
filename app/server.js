@@ -19,7 +19,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://alumni-gbu.vercel.app",
   "http://localhost:5173",
-  ,
+  "https://test.payu.in/_payment,",
 ];
 
 app.use(
