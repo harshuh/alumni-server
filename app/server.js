@@ -40,10 +40,37 @@ app.use(cookieParser());
 //     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
 //   })
 // );
+
+// option 2
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       callback(null, true); // Always allow
+//     },
+//     credentials: true,
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
+//   })
+// );
+
+// option 3
+
+const allowedOrigins = [
+  "https://alumni-gbu.vercel.app", // ✅ your frontend
+  "http://localhost:5173", // ✅ optional: local dev
+];
+
 app.use(
   cors({
-    origin: (origin, callback) => {
-      callback(null, true); // Always allow
+    origin: function (origin, callback) {
+      // ✅ Allow requests with no origin (e.g., PayU, curl, Postman)
+      if (!origin) return callback(null, true);
+
+      // ✅ Allow your frontend domains
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+
+      // ❌ Otherwise, block
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
