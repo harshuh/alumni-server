@@ -78,7 +78,7 @@ export const handlePaymentSuccess = async (req, res) => {
         </style>
         <script>
           setTimeout(function() {
-            window.location.href = "https://alumni-gbu.vercel.app/payment-success";
+            window.location.href = "https://alumni-gbu.vercel.app/alumni/payment-success";
           }, 3000); // Redirect after 3 seconds
         </script>
       </head>
