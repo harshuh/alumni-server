@@ -16,6 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+//PayU Money
+app.use("/api/payu", payuRouter);
+
 const allowedOrigins = [
   "https://alumni-gbu.vercel.app",
   "http://localhost:5173",
@@ -94,9 +97,6 @@ app.use("/api/school", schoolRouter);
 //utils
 app.use("/api/data", filterRouter);
 app.use("/api/user", stausRouter);
-
-//PayU Money
-app.use("/api/payu", payuRouter);
 
 // auth verification
 app.use("/api/members-only", checkRouter);
