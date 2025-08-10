@@ -91,7 +91,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://test.payu.in/_payment",
 ];
-
+//payU
+import { payuRouter } from "../routes/payu.route.js";
 //PayU Money
 app.use("/api/payment", payuRouter);
 
@@ -134,9 +135,6 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 //utils
 import { filterRouter } from "../utils/filterData.js";
 import { stausRouter } from "../utils/checkStatus.js";
-
-//payU
-import { payuRouter } from "../routes/payu.route.js";
 
 // Route Mounting
 
