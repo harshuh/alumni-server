@@ -16,64 +16,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       const allowedOrigins = [
-//         "https://alumni-gbu.vercel.app",
-//         "http://localhost:5173",
-//         "https://secure.payu.in", // included just in case
-//       ];
-
-//       if (!origin) {
-//         return callback(null, true);
-//       }
-
-//       if (allowedOrigins.includes(origin)) {
-//         return callback(null, true);
-//       } else {
-//         return callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//     credentials: true,
-//     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
-//   })
-// );
-
-// option 2
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       callback(null, true); // Always allow
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-//     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
-//   })
-// );
-
-// option 3
-
 const allowedOrigins = [
-  "https://alumni-gbu.vercel.app", // ✅ your frontend
-  "http://localhost:5173", // ✅ optional: local dev
+  "https://alumni-gbu.vercel.app",
+  "http://localhost:5173",
+  "https://test.payu.in/_payment",
+  "https://payu.in/",
+  "https://secure.payu.in",
+  "https://api.payu.in/",
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // ✅ Allow requests with no origin (e.g., PayU, curl, Postman)
-      if (!origin) return callback(null, true);
-
-      // ✅ Allow your frontend domains
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-
-      // ❌ Otherwise, block
-      return callback(new Error("Not allowed by CORS"));
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
     },
-    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
   })
 );
