@@ -19,7 +19,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "https://alumni-gbu.vercel.app",
   "http://localhost:5173",
-  "https://test.payu.in/_payment,",
+  "https://test.payu.in/_payment",
 ];
 
 app.use(
@@ -31,7 +31,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
   })

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import express from "express";
 
 import {
   handlePaymentSuccess,
@@ -9,14 +10,16 @@ import {
 // import { alumniAuth } from "../../middlewares/alumniAuth.js";
 
 export const payuRouter = Router();
-payuRouter.post("/success", (req, res) => {
-  console.log("🚀 SUCCESS ROUTE HIT — VERCEL CHECK");
-  console.log("Headers:", req.headers);
-  console.log("Body:", req.body);
-
-  res.status(200).send("Payment success received");
-});
-
+payuRouter.post(
+  "/success",
+  express.urlencoded({ extended: true }),
+  (req, res) => {
+    console.log("🚀 SUCCESS ROUTE HIT — VERCEL CHECK");
+    console.log("Headers:", req.headers);
+    console.log("Body:", req.body);
+    res.status(200).send("Payment success received");
+  }
+);
 // payuRouter.post("/success", handlePaymentSuccess);
 // payuRouter.post("/failure", handlePaymentFailure);
 payuRouter.post("/initiate-payment", initiatePayment);
