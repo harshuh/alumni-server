@@ -13,12 +13,6 @@ export const generateHash = async (email, salt) => {
   const amount = "1000.00";
   const productinfo = "Alumni Membership";
 
-  const udf1 = "";
-  const udf2 = "";
-  const udf3 = "";
-  const udf4 = "";
-  const udf5 = "";
-
   const params = {
     key,
     txnid,
@@ -27,16 +21,16 @@ export const generateHash = async (email, salt) => {
     firstname: user.alumniName,
     email: user.email,
     phone: user.phoneNo,
-    surl: "https://gbu-alumniserver.vercel.app/api/payu/success",
-    furl: "https://gbu-alumniserver.vercel.app/api/payu/failure",
-    udf1,
-    udf2,
-    udf3,
-    udf4,
-    udf5,
+    surl: "https://alumni-gbu.vercel.app/alumni/login",
+    furl: "https://alumni-gbu.vercel.app/alumni/home",
+    udf1: "",
+    udf2: "",
+    udf3: "",
+    udf4: "",
+    udf5: "",
   };
-
-  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${salt}`;
+  const hashString = `${key}|${txnid}|${amount}|${productinfo}|${params.firstname}|${params.email}|${params.udf1}|${params.udf2}|${params.udf3}|${params.udf4}|${params.udf5}||||||${salt}`;
+  // const hashString = `${key}|${txnid}|${amount}|${productinfo}|${user.alumniName}|${user.email}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${salt}`;
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
   // console.log("Forward Hash String:", hashString);
