@@ -94,8 +94,16 @@ const allowedOrigins = [
 //payU
 import { payuRouter } from "../routes/payu.route.js";
 //PayU Money
-app.use("/api/payment", payuRouter);
-
+app.use(
+  "/api/payment",
+  cors({
+    origin: "*", // allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    credentials: false, // usually false when allowing *
+    allowedHeaders: ["Authorization", "Content-Type", "x-access-token"],
+  }),
+  payuRouter
+);
 app.use(
   cors({
     origin: (origin, callback) => {

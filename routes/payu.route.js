@@ -9,11 +9,11 @@ import { publicCors, restrictedCors } from "../config/cors.config.js";
 export const payuRouter = Router();
 
 // --- Public PayU routes ---
-payuRouter.post("/success", publicCors, handlePaymentSuccess);
-payuRouter.post("/failure", publicCors, handlePaymentFailure);
+payuRouter.post("/success", handlePaymentSuccess);
+payuRouter.post("/failure", handlePaymentFailure);
 
 // --- Restricted PayU route ---
-payuRouter.post("/initiate-payment", publicCors, initiatePayment);
+payuRouter.post("/initiate-payment", initiatePayment);
 
 // ===========  Harsh's code below  ===========
 
