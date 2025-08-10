@@ -131,6 +131,33 @@ export const loginAlumni = async (req, res) => {
   }
 };
 
+export const alumniProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const alumni = await Alumni.findById(id)
+      .populate({
+        path: "schoolId",
+        select: "schoolName", // select only safe school fields
+      })
+      .lean();
+
+    if (!alumni) {
+      return res.status(404).json({ message: "Alumni not found" });
+    }
+
+    // Optionally transform data
+    const data = {
+      ...alumni,
+      schoolName: alumni.schoolId?.schoolName || "N/A",
+    };
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
 /* 3. Send Reset Link */
 export const sendResetLink = async (req, res) => {
   try {
