@@ -14,10 +14,17 @@ payuRouter.post(
   "/success",
   express.urlencoded({ extended: true }),
   (req, res) => {
-    console.log("🚀 SUCCESS ROUTE HIT — VERCEL CHECK");
-    console.log("Headers:", req.headers);
-    console.log("Body:", req.body);
-    res.status(200).send("Payment success received");
+    try {
+      console.log("✅ /success HIT");
+      console.log("Headers:", req.headers);
+      console.log("Body:", req.body);
+
+      // Your processing logic here
+      res.status(200).send("Payment success received");
+    } catch (err) {
+      console.error("❌ Error in /success:", err);
+      res.status(500).send("Internal Server Error");
+    }
   }
 );
 // payuRouter.post("/success", handlePaymentSuccess);
