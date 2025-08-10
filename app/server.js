@@ -92,8 +92,8 @@ const allowedOrigins = [
   "https://test.payu.in/_payment",
 ];
 
-//payU
-import { payuRouter } from "../routes/payu.route.js";
+//PayU Money
+app.use("/api/payment", payuRouter);
 
 app.use(
   cors({
@@ -135,6 +135,9 @@ import { schoolRouter } from "../routes/schoolRoutes/school.route.js";
 import { filterRouter } from "../utils/filterData.js";
 import { stausRouter } from "../utils/checkStatus.js";
 
+//payU
+import { payuRouter } from "../routes/payu.route.js";
+
 // Route Mounting
 
 app.get("/", (req, res) => {
@@ -160,9 +163,6 @@ app.use("/api/school", schoolRouter);
 //utils
 app.use("/api/data", filterRouter);
 app.use("/api/user", stausRouter);
-
-//PayU Money
-app.use("/api/payment", payuRouter);
 
 // auth verification
 app.use("/api/members-only", checkRouter);
