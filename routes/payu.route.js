@@ -13,7 +13,7 @@ payuRouter.post("/success", publicCors, handlePaymentSuccess);
 payuRouter.post("/failure", publicCors, handlePaymentFailure);
 
 // --- Restricted PayU route ---
-payuRouter.post("/initiate-payment", publicCors, initiatePayment);
+payuRouter.post("/initiate-payment", restrictedCors, initiatePayment);
 
 // ===========  Harsh's code below  ===========
 
