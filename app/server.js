@@ -140,6 +140,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// PayU (CORS is handled inside route)
+app.use("/api/payu", payuRouter);
+
 // General CORS for restricted routes
 const allowedOrigins = [
   "https://alumni-gbu.vercel.app",
@@ -183,9 +186,6 @@ app.use("/api/school", schoolRouter);
 // Utilities
 app.use("/api/data", filterRouter);
 app.use("/api/user", stausRouter);
-
-// PayU (CORS is handled inside route)
-app.use("/api/payu", payuRouter);
 
 // Auth check
 app.use("/api/members-only", checkRouter);
