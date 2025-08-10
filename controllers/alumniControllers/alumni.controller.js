@@ -133,9 +133,11 @@ export const loginAlumni = async (req, res) => {
 
 export const alumniProfile = async (req, res) => {
   try {
-    const alumniId = req.alumni._id;
+    const alumniId = req.alumniId;
 
-    const alumni = await Alumni.findById(alumniId)
+    const alumni = await Alumni.findById(alumniId, {
+      credential: 0,
+    })
       .populate({
         path: "schoolId",
         select: "schoolName", // select only safe school fields
@@ -152,7 +154,7 @@ export const alumniProfile = async (req, res) => {
       schoolName: alumni.schoolId?.schoolName || "N/A",
     };
 
-    res.status(200).json(data);
+    res.status(200).json({ entries: data });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error });
   }
@@ -207,7 +209,7 @@ export const resetPassword = async (req, res) => {
 export const alumniLogout = async (req, res) => {
   try {
     res
-      .clearcookies("alumnitk", {
+      .clearCookies("alumnitk", {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
