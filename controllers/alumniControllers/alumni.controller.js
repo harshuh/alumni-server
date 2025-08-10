@@ -133,9 +133,9 @@ export const loginAlumni = async (req, res) => {
 
 export const alumniProfile = async (req, res) => {
   try {
-    const { id } = req.params;
+    const alumniId = req.alumni._id;
 
-    const alumni = await Alumni.findById(id)
+    const alumni = await Alumni.findById(alumniId)
       .populate({
         path: "schoolId",
         select: "schoolName", // select only safe school fields
