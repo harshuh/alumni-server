@@ -64,7 +64,7 @@ export const registerAlumni = async (req, res) => {
       $or: [{ enrollmentNo }, { phoneNo }, { email }],
     });
     if (exists) {
-      return res.status(409).json({ error: "User already registered" });
+      return res.status(409).json({ message: "User already registered" });
     }
 
     await Alumni.create({
