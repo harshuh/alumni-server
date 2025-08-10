@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.options("*", cors());
+// app.options("*", cors());
 
 // Root test route
 app.get("/", (req, res) => {
