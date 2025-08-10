@@ -10,13 +10,13 @@ import {
 
 export const payuRouter = Router();
 payuRouter.post("/success", (req, res) => {
-  console.log("✅ PayU hit /api/payment/success");
+  console.log("🚀 SUCCESS ROUTE HIT — VERCEL CHECK");
   console.log("Headers:", req.headers);
   console.log("Body:", req.body);
 
-  // Always respond with 200 OK so PayU knows it succeeded
-  return res.status(200).send("✅ Payment success received");
+  res.status(200).send("Payment success received");
 });
+
 // payuRouter.post("/success", handlePaymentSuccess);
 // payuRouter.post("/failure", handlePaymentFailure);
 payuRouter.post("/initiate-payment", initiatePayment);
