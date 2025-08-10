@@ -2,10 +2,9 @@ import crypto from "crypto";
 import { Alumni } from "../models/Alumni/alumniData.model.js";
 
 export const generateHash = async ({ email }, salt) => {
-  console.log("Genrate Hash SALT ===>", salt);
-
+  //
   const alumni = await Alumni.findOne({ email: email });
-  //   console.log("emial of alumni", alumni.email);
+
   if (!alumni) {
     throw new Error("Alumni Not Found");
   }
@@ -28,7 +27,7 @@ export const generateHash = async ({ email }, salt) => {
     .digest("hex")
     .toLowerCase();
 
-  console.log("Genrate HASH ---->", hash);
+  // console.log("Genrate HASH ---->", hash);
 
   return { hash, params };
 };

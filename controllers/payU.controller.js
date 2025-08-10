@@ -2,6 +2,8 @@ import crypto from "crypto";
 
 import { generateHash } from "../utils/payuHash.js";
 
+import { Alumni } from "../models/Alumni/alumniData.model.js";
+
 export const initiatePayment = async (req, res) => {
   try {
     const { email } = req.query;
@@ -42,8 +44,6 @@ export const handlePaymentSuccess = async (req, res) => {
       hash: receivedHash,
     } = req.body;
 
-    console.log("Body of handlePaymentSuccess", req.body);
-
     if (!receivedHash) {
       return res
         .status(400)
@@ -60,12 +60,34 @@ export const handlePaymentSuccess = async (req, res) => {
       .digest("hex")
       .toLowerCase();
 
-    console.log("this is the calculated hash ------>", calculatedHash);
-    console.log("this is the received hash--------->", receivedHash);
+    // console.log("this is the calculated hash ------>", calculatedHash);
+    // console.log("this is the received hash--------->", receivedHash);
+
     if (calculatedHash !== receivedHash) {
       return res
         .status(400)
         .json({ message: "Hash mismatch. Possible tampering detected." });
+    }
+
+    // check for alumni isVerified and isPaid
+    const updated = await Alumni.findOneAndUpdate(
+      { email: email, isVerified: true, isPaid: false },
+      {
+        $set: {
+          isPaid: true,
+          paymentTxnId: txnid,
+          paymentAmount: amount,
+          paymentStatus: status,
+          paymentDate: new Date(),
+        },
+      },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res
+        .status(404)
+        .json({ message: "Alumni not found or already marked as paid" });
     }
 
     // If hash is valid, return success HTML
@@ -117,7 +139,7 @@ export const handlePaymentSuccess = async (req, res) => {
   }
 };
 
-export const handlePaymentFailure = (req, res) => {
+export const handlePaymentFailure = async (req, res) => {
   try {
     const {
       key,
@@ -129,8 +151,6 @@ export const handlePaymentFailure = (req, res) => {
       status,
       hash: receivedHash,
     } = req.body;
-
-    console.log("Body of handlePaymentFailure", req.body);
 
     if (!receivedHash) {
       return res
