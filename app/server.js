@@ -57,7 +57,7 @@ app.use("/api/data", restrictedCors, filterRouter);
 app.use("/api/user", restrictedCors, stausRouter);
 
 // PayU (handles its own CORS inside payuRouter)
-app.use("/api/payment", restrictedCors, payuRouter);
+app.use("/api/payment", publicCors, payuRouter);
 
 // Auth verification (Restricted)
 app.use("/api/members-only", restrictedCors, checkRouter);
