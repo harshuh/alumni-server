@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 import { generateHash } from "../utils/payuHash.js";
 
 export const initiatePayment = async (req, res) => {
