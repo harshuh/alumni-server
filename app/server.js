@@ -92,7 +92,7 @@ app.use("/api/data", filterRouter);
 app.use("/api/user", stausRouter);
 
 //PayU Money
-app.use("/api/payu", payuRouter);
+app.use("/api/payment", payuRouter);
 
 // auth verification
 app.use("/api/members-only", checkRouter);

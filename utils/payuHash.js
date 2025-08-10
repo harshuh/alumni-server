@@ -22,7 +22,11 @@ export const generateHash = async ({ email }, salt) => {
 
   const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|||||||||||${salt}`;
 
-  const hash = crypto.createHash("sha512").update(hashString).digest("hex");
+  const hash = crypto
+    .createHash("sha512")
+    .update(hashString)
+    .digest("hex")
+    .toLowerCase();
 
   console.log("Genrate HASH ---->", hash);
 

@@ -11,8 +11,8 @@ export const initiatePayment = async (req, res) => {
 
     const paymentUrl = process.env.ENVIRONMENT_TEST;
 
-    const surl = "https://gbu-alumniserver.vercel.app/api/payu/pay/success";
-    const furl = "https://gbu-alumniserver.vercel.app/api/payu/pay/failure";
+    const surl = "https://gbu-alumniserver.vercel.app/api/payment/success";
+    const furl = "https://gbu-alumniserver.vercel.app/api/payment/failure";
 
     res.status(200).json({
       ...params,
@@ -40,16 +40,8 @@ export const handlePaymentSuccess = async (req, res) => {
       status,
       hash: receivedHash,
     } = req.body;
-    req.body;
-    console.log("the my bidy that is send by ", req.body);
-    const salt = process.env.PayU_MERCHENT_SALT_V2;
+    console.log("Body of handlePaymentSuccess", req.body);
 
-    // const hashSequence = `${salt}|${status}|||||||||||${email}|${firstname}|${productinfo}|${amount}|${txnid}|${key}`;
-    // const expectedHash = crypto
-    //   .createHash("sha512")
-    //   .update(hashSequence)
-    //   .digest("hex");
-    // console.log("xxxxxxxx------xxxxx", expectedHash);
     if (!receivedHash) {
       return res
         .status(400)
@@ -86,7 +78,7 @@ export const handlePaymentSuccess = async (req, res) => {
         </style>
         <script>
           setTimeout(function() {
-            window.location.href = "https://www.youtube.com/";
+            window.location.href = "https://alumni-gbu.vercel.app/payment-success";
           }, 3000); // Redirect after 3 seconds
         </script>
       </head>
