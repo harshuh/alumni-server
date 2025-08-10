@@ -10,6 +10,6 @@ import {
 
 export const payuRouter = Router();
 
-payuRouter.get("/pay/success", paymentSuccess);
-payuRouter.get("/pay/failure", paymentFailure);
+payuRouter.get("/success", paymentSuccess);
+payuRouter.get("/failure", paymentFailure);
 payuRouter.post("/payment/:email", initiatePayment);
