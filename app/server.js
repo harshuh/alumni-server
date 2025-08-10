@@ -16,20 +16,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "https://alumni-gbu.vercel.app",
-  "http://localhost:5173",
-  "https://test.payu.in/_payment",
-  "https://secure.payu.in",
-];
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "https://alumni-gbu.vercel.app",
+        "http://localhost:5173",
+        "https://secure.payu.in", // included just in case
+      ];
+
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(new Error("Not allowed by CORS"));
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
