@@ -83,7 +83,7 @@ export const handlePaymentSuccess = async (req, res) => {
       </head>
       <body>
         <div class="card">
-          <h1>✅ Payment Successful</h1>
+          <h1> Payment Successful Kindly Login...</h1>
           <p>Thank you! You will be redirected shortly...</p>
         </div>
       </body>
@@ -96,7 +96,55 @@ export const handlePaymentSuccess = async (req, res) => {
 };
 
 export const handlePaymentFailure = (req, res) => {
-  const { body } = req;
-  // Handle failure logic
-  res.status(400).json({ message: "Payment failed", data: body });
+  try {
+    const { body } = req;
+    console.log("Body of handlePaymentFailure", body);
+
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Payment Failed</title>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              text-align: center;
+              padding: 40px;
+              background-color: #fff5f5;
+            }
+            .card {
+              background: white;
+              padding: 30px;
+              border-radius: 8px;
+              display: inline-block;
+              box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            h1 {
+              color: #c62828;
+            }
+            p {
+              color: #555;
+            }
+          </style>
+          <script>
+            setTimeout(function() {
+              window.location.href = "https://alumni-gbu.vercel.app/alumni/payment-failure";
+            }, 3000); // Redirect after 3 seconds
+          </script>
+        </head>
+        <body>
+          <div class="card">
+            <h1>Payment Failed Please don't make a payment for 12hr...</h1>
+            <p>Unfortunately, your payment could not be processed.<br>
+               You will be redirected shortly...</p>
+          </div>
+        </body>
+      </html>
+    `);
+  } catch (error) {
+    console.error("Error handling payment failure:", error);
+    res.status(500).json({ error: "Error handling payment failure." });
+  }
 };
