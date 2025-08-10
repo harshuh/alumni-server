@@ -3,7 +3,7 @@ import { Alumni } from "../models/Alumni/alumniData.model.js";
 
 const checkStatus = async (req, res) => {
   try {
-    const Email = (req.query.email || "").trim();
+    const Email = (req.body.email || "").trim();
 
     if (!Email) {
       return res.status(400).json({ message: "Email required" });
