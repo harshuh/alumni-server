@@ -17,6 +17,7 @@ export const initiatePayment = async (req, res) => {
       ...params,
       hash,
       paymentUrl,
+      service_provider: "payu_paisa",
     };
 
     res.status(200).json({
@@ -94,29 +95,29 @@ export const initiatePayment = async (req, res) => {
 // };
 // Payment Success
 export const paymentSuccess = async (req, res) => {
-  console.log("Incoming Payment Success Data:", req.body);
-  const postedData = req.body;
+  // console.log("Incoming Payment Success Data:", req.body);
+  // const postedData = req.body;
 
-  if (!verifyPayUHash(postedData)) {
-    return res.status(400).send("Invalid hash");
-  }
+  // if (!verifyPayUHash(postedData)) {
+  //   return res.status(400).send("Invalid hash");
+  // }
 
-  try {
-    await Alumni.findOneAndUpdate(
-      { email: postedData.email, isVerified: true, isPaid: false },
-      {
-        $set: {
-          isPaid: true,
-          paymentTxnId: postedData.txnid,
-          paymentAmount: postedData.amount,
-          paymentStatus: postedData.status,
-          paymentDate: new Date(),
-        },
-      }
-    );
-  } catch (err) {
-    console.error("Error updating DB:", err);
-  }
+  // try {
+  //   await Alumni.findOneAndUpdate(
+  //     { email: postedData.email, isVerified: true, isPaid: false },
+  //     {
+  //       $set: {
+  //         isPaid: true,
+  //         paymentTxnId: postedData.txnid,
+  //         paymentAmount: postedData.amount,
+  //         paymentStatus: postedData.status,
+  //         paymentDate: new Date(),
+  //       },
+  //     }
+  //   );
+  // } catch (err) {
+  //   console.error("Error updating DB:", err);
+  // }
 
   // Redirect to frontend
   res.redirect(`https://alumni-gbu.vercel.app/alumni/home`);
