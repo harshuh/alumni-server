@@ -62,7 +62,7 @@ import { filterRouter } from "../utils/filterData.js";
 import { stausRouter } from "../utils/checkStatus.js";
 
 //payU
-import { payuRouter } from "../routes/payu.route.js";
+// import { payuRouter } from "../routes/payu.route.js";
 
 // Route Mounting
 
@@ -91,7 +91,7 @@ app.use("/api/data", filterRouter);
 app.use("/api/user", stausRouter);
 
 //PayU Money
-app.use("/api/payu", payuRouter);
+// app.use("/api/payu", payuRouter);
 
 // auth verification
 app.use("/api/members-only", checkRouter);
