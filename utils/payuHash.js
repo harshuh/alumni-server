@@ -1,11 +1,11 @@
 import crypto from "crypto";
-import { Alumni } from "../models/Alumni/alumniData.model";
+import { Alumni } from "../models/Alumni/alumniData.model.js";
 
 export const generateHash = async ({ email }, salt) => {
   console.log("Genrate Hash SALT ===>", salt);
 
   const alumni = await Alumni.findOne({ email: email });
-
+  //   console.log("emial of alumni", alumni.email);
   if (!alumni) {
     throw new Error("Alumni Not Found");
   }
@@ -20,7 +20,7 @@ export const generateHash = async ({ email }, salt) => {
     phone: alumni.phoneNo,
   };
 
-  const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|${salt}`;
+  const hashString = `${params.key}|${params.txnid}|${params.amount}|${params.productinfo}|${params.firstname}|${params.email}|||||||||||${salt}`;
 
   const hash = crypto.createHash("sha512").update(hashString).digest("hex");
 
