@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export const initiatePayment = async (req, res) => {
   try {
-    const { email } = req.params;
+    const { email } = req.query;
 
     const salt = process.env.PayU_MERCHENT_SALT_V2;
 

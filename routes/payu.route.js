@@ -19,7 +19,7 @@ payuRouter.post("/success", (req, res) => {
 });
 // payuRouter.post("/success", handlePaymentSuccess);
 // payuRouter.post("/failure", handlePaymentFailure);
-payuRouter.post("/initiate-payment/:email", initiatePayment);
+payuRouter.post("/initiate-payment", initiatePayment);
 
 // // routes/payu.route.js
 // import { Router } from "express";
