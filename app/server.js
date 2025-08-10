@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { connectDatabase } from "../config/connectDB.js";
 import { publicCors, restrictedCors } from "../config/cors.config.js";
 
@@ -29,6 +30,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+
+app.options("*", cors());
 
 // Root test route
 app.get("/", (req, res) => {
