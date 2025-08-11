@@ -15,10 +15,15 @@ const transporter = nodemailer.createTransport({
 /*                        1. List Pending Alumni Accounts                     */
 export const listPendingAlumni = async (req, res) => {
   try {
-    const pendingAlumni = await Alumni.find({ isVerified: false })
+    const pendingAlumni = await Alumni.find(
+      { isVerified: false },
+      {
+        credential: 0,
+      }
+    )
       .populate({
         path: "schoolId",
-        select: "schoolName programme branch",
+        select: "schoolName programme branch", // select only safe school fields
       })
       .lean();
     const data = pendingAlumni.map((a) => ({
@@ -127,7 +132,7 @@ export const approvedAlumni = async (req, res) => {
     )
       .populate({
         path: "schoolId",
-        select: "schoolName programme branch",
+        select: "schoolName programme branch", // select only safe school fields
       })
       .lean();
     const data = alumni.map((a) => ({
