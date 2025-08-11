@@ -86,6 +86,8 @@ export const getAlumni = async (req, res) => {
     const data = alumni.map((a) => ({
       ...a,
       schoolName: a.schoolId?.schoolName || "N/A",
+      programme: alumni.schoolId?.programme || "N/A",
+      branch: alumni.schoolId?.branch || "N/A",
       status: a.isActive,
     }));
     res.status(200).json({ entries: data });

@@ -29,6 +29,8 @@ export const listPendingAlumni = async (req, res) => {
     const data = pendingAlumni.map((a) => ({
       ...a,
       schoolName: a.schoolId?.schoolName || "N/A",
+      programme: alumni.schoolId?.programme || "N/A",
+      branch: alumni.schoolId?.branch || "N/A",
       status: a.isActive,
     }));
     res.json({ entries: data });
@@ -138,6 +140,8 @@ export const approvedAlumni = async (req, res) => {
     const data = alumni.map((a) => ({
       ...a,
       schoolName: a.schoolId?.schoolName || "N/A",
+      programme: alumni.schoolId?.programme || "N/A",
+      branch: alumni.schoolId?.branch || "N/A",
       status: a.isActive,
     }));
 
