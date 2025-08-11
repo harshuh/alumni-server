@@ -53,7 +53,7 @@ export const registerAlumni = async (req, res) => {
     const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/; // strict pattern
     if (!rollNoRegex.test(RollNo)) {
       return res.status(400).json({
-        message: "Invalid rollNo format. Expected format: 235/ucs/058",
+        message: "Expected format: 235/ucs/058",
       });
     }
     const findschool = await School.findOne({
