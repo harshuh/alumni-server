@@ -80,7 +80,7 @@ export const getAlumni = async (req, res) => {
     )
       .populate({
         path: "schoolId",
-        select: "schoolName",
+        select: "schoolName programme branch",
       })
       .lean();
     const data = alumni.map((a) => ({

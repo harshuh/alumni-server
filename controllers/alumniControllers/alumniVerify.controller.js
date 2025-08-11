@@ -15,9 +15,18 @@ const transporter = nodemailer.createTransport({
 /*                        1. List Pending Alumni Accounts                     */
 export const listPendingAlumni = async (req, res) => {
   try {
-    const pendingAlumni = await Alumni.find({ isVerified: false }).lean();
-
-    res.json({ entries: pendingAlumni });
+    const pendingAlumni = await Alumni.find({ isVerified: false })
+      .populate({
+        path: "schoolId",
+        select: "schoolName programme branch",
+      })
+      .lean();
+    const data = pendingAlumni.map((a) => ({
+      ...a,
+      schoolName: a.schoolId?.schoolName || "N/A",
+      status: a.isActive,
+    }));
+    res.json({ entries: data });
   } catch (error) {
     console.error("Error fetching pending alumni:", error);
     res.status(500).json({ message: "Server Error" });
@@ -118,7 +127,7 @@ export const approvedAlumni = async (req, res) => {
     )
       .populate({
         path: "schoolId",
-        select: "schoolName",
+        select: "schoolName programme branch",
       })
       .lean();
     const data = alumni.map((a) => ({
