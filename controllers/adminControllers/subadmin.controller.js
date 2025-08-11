@@ -89,6 +89,36 @@ export const subadminLogin = async (req, res) => {
   }
 };
 
+/*                               Subadmin Profile                              */
+
+export const subadminProfile = async (req, res) => {
+  try {
+    const subadminId = req.subadminId;
+
+    const subadmin = await Subadmin.findOne(subadminId, {
+      credential: 0,
+    })
+      .populate({
+        path: "schoolId",
+        select: "schoolName",
+      })
+      .lean();
+
+    if (!subadmin) {
+      return res.status(400).json({ message: "subAdmin not found" });
+    }
+
+    const data = {
+      ...subadmin,
+      schoolName: subadmin.schoolId?.schoolName || "N/A",
+    };
+
+    res.status(200).json({ entries: data });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
 /*                               Subadmin Logout                               */
 export const subadminLogout = async (req, res) => {
   try {

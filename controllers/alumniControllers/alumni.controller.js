@@ -145,7 +145,7 @@ export const alumniProfile = async (req, res) => {
       .lean();
 
     if (!alumni) {
-      return res.status(404).json({ message: "Alumni not found" });
+      return res.status(400).json({ message: "Alumni not found" });
     }
 
     // Optionally transform data
