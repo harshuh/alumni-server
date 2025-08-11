@@ -95,7 +95,7 @@ export const subadminProfile = async (req, res) => {
   try {
     const subadminId = req.subadminId;
 
-    const subadmin = await Subadmin.findOne(subadminId, {
+    const subadmin = await Subadmin.findById(subadminId, {
       credential: 0,
     })
       .populate({
