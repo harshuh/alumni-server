@@ -192,22 +192,46 @@ export const sendResetLink = async (req, res) => {
     const resetLink = `https://alumni-gbu.vercel.app/alumni/forgetPassword/reset/${resetToken}`;
 
     const htmlEmail = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
-        <h2 style="color: #004aad;">GBU Alumni Portal</h2>
-        <p>Dear ${alumni.alumniName || "Alumnus"},</p>
-        <p>We received a request to reset your password. Click the button below to proceed:</p>
-        <p style="text-align: center; margin: 20px 0;">
-          <a href="${resetLink}" style="background-color: #004aad; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">
-            Reset My Password
-          </a>
-        </p>
-        
-        <p>This link will expire in 10 min for your security.</p>
-        <p>If you did not request a password reset, you can safely ignore this email.</p>
-        <br/>
-        <p style="font-size: 0.9em; color: #3a3a3aff;">— GBU Alumni Support Team</p>
+  <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+
+    <!-- Header with Logo -->
+    <div style="text-align: center; padding-bottom: 15px; border-bottom: 1px solid #ddd;">
+      <img src="https://alumni-gbu.vercel.app/assets/GBULOGO-DhYKTrkz.png" alt="GBU Logo" style="max-width: 120px; margin-bottom: 10px;">
+      <h1 style="color: #2c3e50; margin: 0;">GBU Alumni Association</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding: 20px;">
+      <h2 style="color: #004aad;">Password Reset Request</h2>
+      <p style="font-size: 16px; line-height: 1.5;">
+        Dear ${alumni.alumniName || "Alumnus"},
+      </p>
+      <p style="font-size: 16px; line-height: 1.5;">
+        We received a request to reset your password. Click the button below to proceed:
+      </p>
+
+      <!-- Reset Button -->
+      <div style="text-align: center; margin: 25px 0;">
+        <a href="${resetLink}" 
+          style="display: inline-block; padding: 12px 20px; background: #004aad; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold;">
+          Reset My Password
+        </a>
       </div>
-    `;
+
+      <p style="font-size: 15px; color: #555;">
+        This link will expire in <strong>10 minutes</strong> for your security.
+      </p>
+      <p style="font-size: 15px; color: #555;">
+        If you did not request a password reset, you can safely ignore this email.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd; padding-top: 10px;">
+      © ${new Date().getFullYear()} GBU Alumni Association. All rights reserved.
+    </div>
+  </div>
+`;
 
     try {
       await mailer.sendMail({

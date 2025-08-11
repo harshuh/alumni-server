@@ -51,14 +51,14 @@ export const approveAlumni = async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL,
       to: alumni.email,
-      subject: "✅ Your GBU Alumni Account Has Been Approved",
+      subject: "Your GBU Alumni Account Has Been Approved",
       html: `
     <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
       
       <!-- Header with Logo -->
       <div style="text-align: center; padding-bottom: 15px; border-bottom: 1px solid #ddd;">
         <img src="https://alumni-gbu.vercel.app/assets/GBULOGO-DhYKTrkz.png" alt="GBU Logo" style="max-width: 120px; margin-bottom: 10px;">
-        <h1 style="color: #2c3e50; margin: 0;">GBU Alumni Portal</h1>
+        <h1 style="color: #2c3e50; margin: 0;">GBU Alumni Association</h1>
       </div>
 
       <!-- Main Content -->
@@ -157,11 +157,48 @@ export const rejectAlumni = async (req, res) => {
       to: alumni.email,
       subject: "GBU Alumni Registration Rejected",
       html: `
-        <h2>Hello, ${alumni.alumniName || "Applicant"}</h2>
-        <p>We regret to inform you that your registration was rejected.</p>
-        <p>The Reason is : ${rejectReason}</p>
-        <p>If you believe this is an error, please contact support.</p>
-      `,
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+      
+      <!-- Header with Logo -->
+      <div style="text-align: center; padding-bottom: 15px; border-bottom: 1px solid #ddd;">
+        <img src="https://alumni-gbu.vercel.app/assets/GBULOGO-DhYKTrkz.png" alt="GBU Logo" style="max-width: 120px; margin-bottom: 10px;">
+        <h1 style="color: #2c3e50; margin: 0;">GBU Alumni Association</h1>
+      </div>
+
+      <!-- Main Content -->
+      <div style="padding: 20px;">
+        <h2 style="color: #e74c3c;">Dear ${
+          alumni.alumniName || "Applicant"
+        },</h2>
+        <p style="font-size: 16px; line-height: 1.5;">
+          We regret to inform you that your alumni registration has been rejected.
+        </p>
+
+        <!-- Reason Box -->
+        <div style="background: #fff3f3; padding: 15px; border-radius: 6px; border: 1px solid #e0b4b4; margin-top: 20px;">
+          <p style="margin: 8px 0; color: #c0392b;"><strong>Reason for Rejection:</strong></p>
+          <p style="margin: 8px 0; font-size: 15px; color: #333;">${rejectReason}</p>
+        </div>
+
+        <p style="margin-top: 20px; font-size: 15px;">
+          If you believe this was a mistake or you wish to appeal, please contact our alumni support team.
+        </p>
+
+        <!-- Contact Support Button -->
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="https://alumni-gbu.vercel.app/alumni/contact" 
+            style="display: inline-block; padding: 10px 20px; background: #e74c3c; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Contact Support
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd; padding-top: 10px;">
+        © ${new Date().getFullYear()} GBU Alumni Association. All rights reserved.
+      </div>
+    </div>
+  `,
     });
 
     res.json({ message: "User rejected and notified" });
