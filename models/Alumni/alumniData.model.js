@@ -62,6 +62,11 @@ const AlumniSchema = new Schema(
       ref: "School",
       required: true,
     },
+    cardId: {
+      type: Schema.Types.ObjectId,
+      ref: "AlumniCard",
+      required: true,
+    },
     yearOfPassing: {
       type: String,
       required: true,
