@@ -70,6 +70,25 @@ export const adminLogin = async (req, res) => {
   }
 };
 
+/*      Admin Profiile   */
+export const adminProfile = async (req, res) => {
+  try {
+    const adminId = req.adminId;
+
+    const admin = await Admin.findById(adminId, {
+      credential: 0,
+    });
+
+    if (!admin) {
+      return res.status(400).json({ message: "Admin not found" });
+    }
+
+    res.status(200).json({ entries: admin });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+};
+
 /*      Admin Logout      */
 export const adminLogout = async (req, res) => {
   try {
