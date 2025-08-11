@@ -198,14 +198,11 @@ export const sendResetLink = async (req, res) => {
             Reset My Password
           </a>
         </p>
-        <p>If the button doesn't work, copy and paste the following link into your browser:</p>
-        <p style="word-break: break-all; color: #004aad;">
-          ${resetLink}
-        </p>
-        <p>This link will expire in 1 hour for your security.</p>
+        
+        <p>This link will expire in 10 min for your security.</p>
         <p>If you did not request a password reset, you can safely ignore this email.</p>
         <br/>
-        <p style="font-size: 0.9em; color: #555;">— GBU Alumni Support Team</p>
+        <p style="font-size: 0.9em; color: #3a3a3aff;">— GBU Alumni Support Team</p>
       </div>
     `;
 
