@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-/**
- *  alumniId  → references the Alumni (or User) collection
- *  school  → references the School collection
- *  cardNo & enrollmentNumber stay unique to the card itself
- */
 const AlumniCardSchema = new Schema(
   {
     alumniId: {
@@ -35,6 +30,6 @@ const AlumniCardSchema = new Schema(
     timestamps: true,
   }
 );
-AlumniCardSchema.index({ cardNo: 1, enrollmentNo: 1 }, { unique: true });
+// AlumniCardSchema.index({ cardNo: 1, rollNo: 1 }, { unique: true });
 
 export const AlumniCard = model("AlumniCard", AlumniCardSchema);

@@ -4,6 +4,8 @@ import { generateHash } from "../utils/payuHash.js";
 
 import { Alumni } from "../models/Alumni/alumniData.model.js";
 
+import { AlumniCard } from "../models/Alumni/alumniCard.model.js";
+
 export const initiatePayment = async (req, res) => {
   try {
     const { email } = req.query;
@@ -90,6 +92,38 @@ export const handlePaymentSuccess = async (req, res) => {
         .json({ message: "Alumni not found or already marked as paid" });
     }
 
+    const shuffleString = (str) => {
+      return str
+        .split("")
+        .sort(() => Math.random() - 0.5)
+        .join("");
+    };
+
+    // Extract first name (before first space)
+    const firstName = updated.alumniName.split(" ")[0].toUpperCase();
+
+    // Extract first and last number parts from roll number
+    const rollNo = updated.rollNo;
+    const rollParts = rollNo.split("/");
+    const numericRollPart = (rollParts[0] || "") + (rollParts[2] || "");
+
+    // Add 2 random uppercase letters
+    // const randomLetters = Array.from({ length: 2 }, () =>
+    //   String.fromCharCode(65 + Math.floor(Math.random() * 26))
+    // ).join("");
+
+    // Combine and scramble
+    const combined = `${firstName}${numericRollPart}`;
+    const scrambled = shuffleString(combined).toUpperCase();
+
+    // Final card number
+    const cardNo = `GBU${scrambled}`;
+
+    await AlumniCard.create({
+      alumniId: updated._id,
+      schoolId: updated.schoolId,
+      cardNo,
+    });
     // If hash is valid, return success HTML
     res.send(`
       <!DOCTYPE html>
