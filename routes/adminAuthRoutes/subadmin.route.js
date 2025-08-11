@@ -13,7 +13,7 @@ const subadminRouter = Router();
 
 subadminRouter.post("/signup", adminAuth, subadminSignup);
 subadminRouter.post("/login", rateLimiter, subadminLogin);
-subadminRouter.post("/profile", rateLimiter, subadminProfile);
+subadminRouter.get("/profile", rateLimiter, subadminProfile);
 subadminRouter.post("/logout", rateLimiter, subadminLogout);
 
 export { subadminRouter };
