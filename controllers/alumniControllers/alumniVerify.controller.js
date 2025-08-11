@@ -38,8 +38,8 @@ export const approveAlumni = async (req, res) => {
     }
 
     /* Generate a temporary password (replace with a stronger generator in prod) */
-    // const tempCredential = Math.random().toString(36).slice(-8);
-    const tempCredential = "10";
+    const tempCredential = Math.random().toString(36).slice(-8);
+    // const tempCredential = "10";
     const hashedTempCredential = await bcrypt.hash(tempCredential, 10);
 
     alumni.isVerified = true;
@@ -51,14 +51,52 @@ export const approveAlumni = async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL,
       to: alumni.email,
-      subject: "Your GBU Alumni Account Has Been Approved",
+      subject: "✅ Your GBU Alumni Account Has Been Approved",
       html: `
-        <h2>Congratulations, ${alumni.alumniName || "Alumnus"}!</h2>
-        <p>Your registration has been approved.</p>
-        <p><strong>Email:</strong> ${alumni.email}</p>
-        <p><strong>Temporary Password:</strong> ${tempCredential}</p>
-        <p>Please log in and change your password.</p>
-      `,
+    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+      
+      <!-- Header with Logo -->
+      <div style="text-align: center; padding-bottom: 15px; border-bottom: 1px solid #ddd;">
+        <img src="https://alumni-gbu.vercel.app/assets/GBULOGO-DhYKTrkz.png" alt="GBU Logo" style="max-width: 120px; margin-bottom: 10px;">
+        <h1 style="color: #2c3e50; margin: 0;">GBU Alumni Portal</h1>
+      </div>
+
+      <!-- Main Content -->
+      <div style="padding: 20px;">
+        <h2 style="color: #27ae60;">Congratulations, ${
+          alumni.alumniName || "Alumnus"
+        }!</h2>
+        <p style="font-size: 16px; line-height: 1.5;">
+          We’re excited to inform you that your alumni account has been approved. You can now log in and access all alumni benefits.
+        </p>
+
+        <!-- Credentials Box -->
+        <div style="background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #ddd; margin-top: 20px;">
+          <p style="margin: 8px 0;"><strong>Email:</strong> ${alumni.email}</p>
+          <p style="margin: 8px 0;"><strong>Temporary Password:</strong> 
+            <span style="background: #eee; padding: 4px 8px; border-radius: 4px; font-weight: bold;">${tempCredential}</span>
+          </p>
+        </div>
+
+        <p style="margin-top: 20px; font-size: 15px;">
+          For your security, please log in and change your password immediately.
+        </p>
+
+        <!-- Login Button -->
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="https://alumni-gbu.vercel.app/alumni/login" 
+            style="display: inline-block; padding: 10px 20px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Log In Now
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #777; border-top: 1px solid #ddd; padding-top: 10px;">
+        © ${new Date().getFullYear()} GBU Alumni Association. All rights reserved.
+      </div>
+    </div>
+  `,
     });
 
     res.json({ message: "Alumni approved", alumni });

@@ -141,7 +141,7 @@ export const alumniProfile = async (req, res) => {
     })
       .populate({
         path: "schoolId",
-        select: "schoolName", // select only safe school fields
+        select: "schoolName programme branch", // select only safe school fields
       })
       .lean();
 
@@ -154,6 +154,8 @@ export const alumniProfile = async (req, res) => {
       ...alumni,
       dob: formatDate(alumni.dob),
       schoolName: alumni.schoolId?.schoolName || "N/A",
+      programme: alumni.schoolId?.programme || "N/A",
+      branch: alumni.schoolId?.branch || "N/A",
     };
 
     res.status(200).json({ entries: data });
