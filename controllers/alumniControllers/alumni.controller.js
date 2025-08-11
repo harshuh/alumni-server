@@ -176,7 +176,7 @@ export const alumniProfile = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     let { credential, newCredential } = req.body;
-    const alumniId = req.alumni._id;
+    const alumniId = req.alumniId;
 
     credential = (credential || "").trim();
     newCredential = (newCredential || "").trim();
