@@ -338,10 +338,10 @@ export const updateProfile = async (req, res) => {
     const { worksAt, discription, Insta, linkdin, twitter, github, others } =
       req.body;
 
-    if (!worksAt || !discription) {
+    if (!worksAt || !discription || !linkdin) {
       return res
         .status(400)
-        .json({ message: "worksAt and discription required" });
+        .json({ message: "worksAt and discription and Linkdin required" });
     }
 
     const updated = await AlumniSocial.findOneAndUpdate(
