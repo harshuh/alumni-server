@@ -28,6 +28,11 @@ const AlumniSchema = new Schema(
       required: true,
       unique: true,
       trim: true,
+      lowercase: true,
+      match: [
+        /^\d{3}\/[A-Za-z]{2,4}\/\d{3}$/,
+        "Invalid rollNo format. Expected: 235/ucs/058",
+      ],
     },
     enrollmentNo: {
       type: String,
