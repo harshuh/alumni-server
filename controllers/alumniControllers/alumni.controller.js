@@ -404,12 +404,12 @@ export const viewCard = async (req, res) => {
   try {
     const alumniId = req.alumniId;
 
-    const card = await AlumniCard.findOne({ alumniId: alumniId })
-      .populate({
-        path: "alumniId",
-        select: "dob phoneNo alumniName yearOfPassing",
-      })
-      .lean();
+    const card = await AlumniCard.findOne({ alumniId: alumniId });
+    // .populate({
+    //   path: "alumniId",
+    //   select: "dob phoneNo alumniName yearOfPassing",
+    // })
+    // .lean();
 
     if (!card) {
       return res.status(404).json({ message: "No alumni card found" });
