@@ -209,7 +209,7 @@ export const resetPassword = async (req, res) => {
 export const alumniLogout = async (req, res) => {
   try {
     res
-      .clearCookies("alumnitk", {
+      .clearCookie("alumnitk", {
         httpOnly: true,
         sameSite: "none",
         secure: process.env.NODE_ENV === "production",
