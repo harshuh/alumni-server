@@ -14,7 +14,13 @@ const checkStatus = async (req, res) => {
     if (!alumni) {
       return res.status(400).json({ message: "Email Not registered" });
     }
-
+    if (!alumni.isVerified && !alumni.isPaid) {
+      return res.status(200).json({
+        isVerified: alumni.isVerified,
+        isPaid: alumni.isPaid,
+        message: "You Are Not Verified Kindly Wait Some Time.",
+      });
+    }
     if (alumni.isVerified && !alumni.isPaid) {
       return res.status(200).json({
         isVerified: alumni.isVerified,
@@ -31,10 +37,6 @@ const checkStatus = async (req, res) => {
         message: "You can log in now.",
       });
     }
-
-    return res.status(200).json({
-      message: "Your email is not verified yet.",
-    });
   } catch (error) {
     // console.log("checkStatus:", error);
     return res.status(500).json({ message: "Server error" });
