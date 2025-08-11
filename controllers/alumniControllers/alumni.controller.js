@@ -49,7 +49,13 @@ export const registerAlumni = async (req, res) => {
     ) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-
+    const RollNo = rollNo.trim().toLowerCase();
+    const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/; // strict pattern
+    if (!rollNoRegex.test(RollNo)) {
+      return res.status(400).json({
+        message: "Invalid rollNo format. Expected format: 235/ucs/058",
+      });
+    }
     const findschool = await School.findOne({
       schoolName: school,
       programme,
@@ -74,7 +80,7 @@ export const registerAlumni = async (req, res) => {
       fatherName: fatherName?.trim(),
       dob,
       enrollmentNo: enrollmentNo.trim(),
-      rollNo: rollNo.trim(),
+      rollNo: RollNo.trim(),
       email: email.trim().toLowerCase(),
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
