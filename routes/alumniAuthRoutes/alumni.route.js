@@ -7,7 +7,7 @@ import {
   registerAlumni,
   loginAlumni,
   alumniProfile,
-  updateSocialDetails,
+  updateProfile,
   sendResetLink,
   resetPassword,
   alumniLogout,
@@ -19,7 +19,7 @@ alumniRouter.post("/register", registerAlumni);
 alumniRouter.post("/login", loginAlumni);
 
 alumniRouter.get("/profile", alumniAuth, alumniProfile);
-alumniRouter.put("/profile/update", alumniAuth, updateSocialDetails);
+alumniRouter.put("/profile/update", alumniAuth, updateProfile);
 
 alumniRouter.post("/forgot-password", sendResetLink);
 alumniRouter.post("/forgot-password/reset/:token", resetPassword);

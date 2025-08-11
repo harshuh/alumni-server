@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const { Schema, model } = mongoose;
 
@@ -7,6 +8,11 @@ const urlRegex =
 
 const SocialMediaSchema = new Schema(
   {
+    alumniId: {
+      type: Schema.Types.ObjectId,
+      ref: "alumni",
+      required: true,
+    },
     worksAt: {
       type: String,
       required: true,
