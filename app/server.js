@@ -32,7 +32,6 @@ import { alumniRouter } from "../routes/alumniAuthRoutes/alumni.route.js";
 
 // Admin Operations (subadmin role)
 import { operationRouter } from "../routes/adminOperations/subAdminOps.route.js";
-import { alumniCardRouter } from "../routes/adminOperations/alumniCard.route.js";
 import { alumniApprovalRouter } from "../routes/adminOperations/alumniVerification.route.js";
 
 // School Routes
@@ -61,7 +60,6 @@ app.use("/api/alumni", restrictedCors, alumniRouter);
 
 // Admin Operation Routes (Subadmin too)
 app.use("/api/panel", restrictedCors, operationRouter);
-app.use("/api/alumnicard", restrictedCors, alumniCardRouter);
 app.use("/api/approval", restrictedCors, alumniApprovalRouter);
 
 // School/Event/Payment Routes
