@@ -9,7 +9,7 @@ import {
   alumniProfile,
   updateSocialDetails,
   sendResetLink,
-  // resetPassword,
+  resetPassword,
   alumniLogout,
 } from "../../controllers/alumniControllers/alumni.controller.js";
 
@@ -17,10 +17,13 @@ const alumniRouter = Router();
 
 alumniRouter.post("/register", registerAlumni);
 alumniRouter.post("/login", loginAlumni);
+
 alumniRouter.get("/profile", alumniAuth, alumniProfile);
 alumniRouter.put("/profile/update", alumniAuth, updateSocialDetails);
-alumniRouter.post("/forgot-password", alumniAuth, sendResetLink);
-// alumniRouter.post("/forgot-password/reset/:token", resetPassword);
+
+alumniRouter.post("/forgot-password", sendResetLink);
+alumniRouter.post("/forgot-password/reset/:token", resetPassword);
+
 alumniRouter.post("/logout", alumniAuth, alumniLogout);
 
 export { alumniRouter };

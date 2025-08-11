@@ -161,7 +161,6 @@ export const alumniProfile = async (req, res) => {
 };
 
 /* 3. Send Reset Link */
-/* 3. Send Reset Link - Improved Version */
 export const sendResetLink = async (req, res) => {
   try {
     const rawEmail = req.body.email || "";
@@ -236,15 +235,48 @@ export const resetPassword = async (req, res) => {
     const { token } = req.params;
     const { newCredential } = req.body;
 
-    const decoded = jwt.verify(token, JWT_SECRET);
+    // Validate input
+    if (!newCredential || typeof newCredential !== "string") {
+      return res.status(400).json({ message: "New password is required" });
+    }
+
+    // Password strength check
+    const strongPasswordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^])[A-Za-z\d@$!%*?&#^]{8,}$/;
+    if (!strongPasswordRegex.test(newCredential)) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character",
+      });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (err) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired password reset token" });
+    }
+
+    const alumni = await Alumni.findById(decoded.id);
+    if (!alumni) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const hash = await bcrypt.hash(newCredential, 10);
 
     await Alumni.findByIdAndUpdate(decoded.id, { credential: hash });
 
+    // Log the reset event (can be replaced with DB logs)
+    console.log(
+      `Password reset for user ${decoded.id} at ${new Date().toISOString()}`
+    );
+
     res.json({ message: "Password reset successful" });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({ message: "Invalid or expired token" });
+    console.error("Password reset error:", err);
+    res.status(500).json({ message: "Server error during password reset" });
   }
 };
 
