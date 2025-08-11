@@ -173,6 +173,40 @@ export const alumniProfile = async (req, res) => {
   }
 };
 
+export const changePassword = async (req, res) => {
+  try {
+    let { credential, newCredential } = req.body;
+    const alumniId = req.alumni._id;
+
+    credential = (credential || "").trim();
+    newCredential = (newCredential || "").trim();
+
+    if (!credential || !newCredential) {
+      return res
+        .status(400)
+        .json({ message: "Current and new password are required." });
+    }
+
+    const alumni = await Alumni.findById(alumniId);
+    if (!alumni) {
+      return res.status(404).json({ message: "Alumni not found." });
+    }
+
+    const valid = await bcrypt.compare(credential, alumni.credential);
+    if (!valid) {
+      return res.status(403).json({ message: "Invalid current password." });
+    }
+
+    const hashedCredential = await bcrypt.hash(newCredential, 10);
+    await Alumni.findByIdAndUpdate(alumniId, { credential: hashedCredential });
+
+    res.status(200).json({ message: "Password changed successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error while changing password." });
+  }
+};
+
 /* 3. Send Reset Link */
 export const sendResetLink = async (req, res) => {
   try {
@@ -298,7 +332,7 @@ export const resetPassword = async (req, res) => {
 
     const alumni = await Alumni.findById(decoded.id);
     if (!alumni) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Alumni not found" });
     }
 
     const hash = await bcrypt.hash(newCredential, 10);
