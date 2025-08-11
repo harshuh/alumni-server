@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 
 import { School } from "../../models/School/school.model.js";
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
+import { formatDate } from "../../utils/dateFormatter.js";
 
 const { ALUMNI_JWT_SECRET, JWT_SECRET, EMAIL, EMAIL_CREDS, FRONTEND_URL } =
   process.env;
@@ -151,6 +152,7 @@ export const alumniProfile = async (req, res) => {
     // Optionally transform data
     const data = {
       ...alumni,
+      dob: formatDate(alumni.dob),
       schoolName: alumni.schoolId?.schoolName || "N/A",
     };
 
@@ -185,7 +187,7 @@ export const sendResetLink = async (req, res) => {
       expiresIn: "10min",
     });
 
-    const resetLink = `https://alumni-gbu.vercel.app/alumni/forgetPassword/${resetToken}`;
+    const resetLink = `https://alumni-gbu.vercel.app/alumni/forgetPassword/reset/${resetToken}`;
 
     const htmlEmail = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
