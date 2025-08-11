@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 
 import { School } from "../../models/School/school.model.js";
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
+import { AlumniCard } from "../../models/Alumni/alumniCard.model.js";
 import { formatDate } from "../../utils/dateFormatter.js";
 
 const { ALUMNI_JWT_SECRET, JWT_SECRET, EMAIL, EMAIL_CREDS, FRONTEND_URL } =
@@ -396,5 +397,35 @@ export const updateProfile = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to update social details" });
+  }
+};
+
+export const viewCard = async (req, res) => {
+  try {
+    const alumniId = req.alumniId;
+
+    const card = await AlumniCard.findOne({ alumniId: alumniId })
+      .populate({
+        path: "alumniId",
+        select: "dob phoneNo alumniName yearOfPassing",
+      })
+      .lean();
+
+    if (!card) {
+      return res.status(404).json({ message: "No alumni card found" });
+    }
+
+    const data = {
+      ...card,
+      dob: formatDate(card.alumniId?.dob),
+      phoneNo: card.alumniId?.phoneNo || "N/A",
+      alumniName: card.alumniId?.alumniName || "N/A",
+      yearOfPassing: card.alumniId?.yearOfPassing || "N/A",
+    };
+
+    res.status(200).json({ entries: data });
+  } catch (error) {
+    console.error("Error in viewCard:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
