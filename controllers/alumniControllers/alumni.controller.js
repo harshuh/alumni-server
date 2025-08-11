@@ -161,30 +161,75 @@ export const alumniProfile = async (req, res) => {
 };
 
 /* 3. Send Reset Link */
+/* 3. Send Reset Link - Improved Version */
 export const sendResetLink = async (req, res) => {
   try {
-    const email = (req.body.email || "").trim().toLowerCase();
+    const rawEmail = req.body.email || "";
+    const email = rawEmail.trim().toLowerCase();
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
     const alumni = await Alumni.findOne({ email });
 
-    if (!alumni)
-      return res.status(404).json({ message: "Email not registered" });
+    if (!alumni) {
+      return res.json({
+        message:
+          "If the email is registered, a password reset link will be sent.",
+      });
+    }
 
     const resetToken = jwt.sign({ id: alumni._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
-
-    await mailer.sendMail({
-      from: EMAIL,
-      to: email,
-      subject: "GBU Alumni Portal - Password Reset",
-      html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+      expiresIn: "10min",
     });
 
-    res.json({ message: "Reset link sent" });
+    const resetLink = `https://alumni-gbu.vercel.app/alumni/forgetPassword/${resetToken}`;
+
+    const htmlEmail = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">
+        <h2 style="color: #004aad;">GBU Alumni Portal</h2>
+        <p>Dear ${alumni.alumniName || "Alumnus"},</p>
+        <p>We received a request to reset your password. Click the button below to proceed:</p>
+        <p style="text-align: center; margin: 20px 0;">
+          <a href="${resetLink}" style="background-color: #004aad; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">
+            Reset My Password
+          </a>
+        </p>
+        <p>If the button doesn't work, copy and paste the following link into your browser:</p>
+        <p style="word-break: break-all; color: #004aad;">
+          ${resetLink}
+        </p>
+        <p>This link will expire in 1 hour for your security.</p>
+        <p>If you did not request a password reset, you can safely ignore this email.</p>
+        <br/>
+        <p style="font-size: 0.9em; color: #555;">— GBU Alumni Support Team</p>
+      </div>
+    `;
+
+    try {
+      await mailer.sendMail({
+        from: `"GBU Alumni Portal" <${EMAIL}>`,
+        to: email,
+        subject: "Password Reset Instructions",
+        html: htmlEmail,
+      });
+    } catch (mailErr) {
+      console.error("Mail sending error:", mailErr);
+      return res
+        .status(500)
+        .json({ message: "Failed to send reset email. Try again later." });
+    }
+
+    res.json({
+      message:
+        "If the email is registered, a password reset link has been sent.",
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Failed to send reset link" });
+    res.status(500).json({ message: "Server error while sending reset link" });
   }
 };
 
