@@ -22,7 +22,7 @@ const AlumniCardSchema = new Schema(
     },
     issueDate: {
       type: Date,
-      default: Date.now, // auto-fill with current date
+      default: Date.now,
     },
   },
   {
