@@ -38,12 +38,6 @@ export const registerAlumni = async (req, res) => {
       yearOfPassing,
     } = req.body;
 
-    let imgOfDegreePath;
-
-    if (req.file) {
-      imgOfDegreePath = `/uploads/degrees/${req.file.filename}`;
-    }
-
     if (
       !alumniName ||
       !fatherName ||
@@ -388,17 +382,7 @@ export const updateProfile = async (req, res) => {
         .json({ message: "worksAt, discription, and linkdin are required" });
     }
 
-    if (
-      !req.files ||
-      !req.files.alumnipfp ||
-      req.files.alumnipfp.length === 0
-    ) {
-      return res.status(400).json({ message: "Image is Required" });
-    }
-
-    const alumnipfpPath = `/uploads/pfp/${req.files.alumnipfp[0].filename}`;
-
-    await Alumni.findByIdAndUpdate(alumniId, { alumnipfp: alumnipfpPath });
+    // await Alumni.findByIdAndUpdate(alumniId, { alumnipfp: alumnipfpPath });
 
     const updated = await AlumniSocial.findOneAndUpdate(
       { _id: alumniId },
