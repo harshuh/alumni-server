@@ -3,7 +3,7 @@ import { Router } from "express";
 
 import { alumniAuth } from "../../middlewares/alumniAuth.js";
 
-import { uploadAlumniFiles } from "../../utils/uploadImg.js";
+import { uploadDegree, uploadPfp } from "../../utils/uploadImg.js";
 
 import {
   registerAlumni,
@@ -19,17 +19,12 @@ import {
 
 const alumniRouter = Router();
 
-alumniRouter.post("/register", uploadAlumniFiles, registerAlumni);
+alumniRouter.post("/register", uploadDegree, registerAlumni);
 alumniRouter.post("/login", loginAlumni);
 
 alumniRouter.get("/profile", alumniAuth, alumniProfile);
 alumniRouter.get("/profile/card", alumniAuth, viewCard);
-alumniRouter.put(
-  "/profile/update",
-  alumniAuth,
-  uploadAlumniFiles,
-  updateProfile
-);
+alumniRouter.put("/profile/update", alumniAuth, uploadPfp, updateProfile);
 alumniRouter.post("/profile/change-password", alumniAuth, changePassword);
 
 alumniRouter.post("/forgot-password", sendResetLink);

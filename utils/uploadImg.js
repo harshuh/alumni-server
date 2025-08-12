@@ -29,4 +29,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-export const uploadAlumniFiles = multer({ storage, fileFilter }).any();
+export const uploadDegree = multer({ storage, fileFilter }).single(
+  "imgOfDegree"
+);
+export const uploadPfp = multer({ storage, fileFilter }).single("alumnipfp");
