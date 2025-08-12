@@ -24,7 +24,12 @@ alumniRouter.post("/login", loginAlumni);
 
 alumniRouter.get("/profile", alumniAuth, alumniProfile);
 alumniRouter.get("/profile/card", alumniAuth, viewCard);
-alumniRouter.put("/profile/update", alumniAuth, updateProfile);
+alumniRouter.put(
+  "/profile/update",
+  alumniAuth,
+  uploadAlumniFiles,
+  updateProfile
+);
 alumniRouter.post("/profile/change-password", alumniAuth, changePassword);
 
 alumniRouter.post("/forgot-password", sendResetLink);
