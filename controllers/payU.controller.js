@@ -31,8 +31,6 @@ export const initiatePayment = async (req, res) => {
   }
 };
 
-//payment ka controller
-
 export const handlePaymentSuccess = async (req, res) => {
   try {
     const {
@@ -155,7 +153,7 @@ export const handlePaymentSuccess = async (req, res) => {
           </style>
           <script>
             setTimeout(function() {
-              window.location.href = "https://alumni-gbu.vercel.app/alumni/payment-success";
+              window.location.href = "https://alumni-gbu.vercel.app/alumni/checkStatus";
             }, 3000);
           </script>
         </head>
@@ -239,7 +237,7 @@ export const handlePaymentFailure = async (req, res) => {
           <script>
             setTimeout(function() {
               window.location.href = "https://alumni-gbu.vercel.app/alumni/payment-failure";
-            }, 3000);
+            }, 5000);
           </script>
         </head>
         <body>
