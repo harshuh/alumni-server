@@ -40,11 +40,8 @@ export const registerAlumni = async (req, res) => {
 
     let imgOfDegreePath;
 
-    if (req.files && req.files.length) {
-      const degreeFile = req.files.find((f) => f.fieldname === "imgOfDegree");
-      if (degreeFile) {
-        imgOfDegreePath = `/uploads/degrees/${degreeFile.filename}`;
-      }
+    if (req.file) {
+      imgOfDegreePath = `/uploads/degrees/${req.file.filename}`;
     }
 
     if (
