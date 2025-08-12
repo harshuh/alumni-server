@@ -38,10 +38,12 @@ export const registerAlumni = async (req, res) => {
       yearOfPassing,
     } = req.body;
 
-    if (!req.files?.imgOfDegree) {
-      return res
-        .status(400)
-        .json({ message: "Image of Degree / Marksheet is required" });
+    if (
+      !req.files ||
+      !req.files.imgOfDegree ||
+      req.files.imgOfDegree.length === 0
+    ) {
+      return res.status(400).json({ message: "Degree image is required" });
     }
 
     const imgOfDegreePath = `/uploads/degrees/${req.files.imgOfDegree[0].filename}`;
@@ -390,7 +392,11 @@ export const updateProfile = async (req, res) => {
         .json({ message: "worksAt, discription, and linkdin are required" });
     }
 
-    if (!req.files?.alumnipfp) {
+    if (
+      !req.files ||
+      !req.files.alumnipfp ||
+      req.files.alumnipfp.length === 0
+    ) {
       return res.status(400).json({ message: "Image is Required" });
     }
 
