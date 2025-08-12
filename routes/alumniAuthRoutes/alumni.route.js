@@ -3,6 +3,8 @@ import { Router } from "express";
 
 import { alumniAuth } from "../../middlewares/alumniAuth.js";
 
+import { uploadAlumniFiles } from "../../utils/uploadImg.js";
+
 import {
   registerAlumni,
   loginAlumni,
@@ -17,7 +19,7 @@ import {
 
 const alumniRouter = Router();
 
-alumniRouter.post("/register", registerAlumni);
+alumniRouter.post("/register", uploadAlumniFiles, registerAlumni);
 alumniRouter.post("/login", loginAlumni);
 
 alumniRouter.get("/profile", alumniAuth, alumniProfile);

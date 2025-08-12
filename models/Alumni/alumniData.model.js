@@ -68,11 +68,11 @@ const AlumniSchema = new Schema(
     },
     imgOfDegree: {
       type: String,
-      // required: true,
+      required: true,
     },
     alumnipfp: {
       type: String,
-      // required: true,
+      required: true,
     },
     isPaid: {
       type: Boolean,

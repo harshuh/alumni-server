@@ -5,6 +5,8 @@ import nodemailer from "nodemailer";
 import { School } from "../../models/School/school.model.js";
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
 import { AlumniCard } from "../../models/Alumni/alumniCard.model.js";
+import { AlumniSocial } from "../../models/Alumni/aluminMedia.model.js";
+
 import { formatDate } from "../../utils/dateFormatter.js";
 
 const { ALUMNI_JWT_SECRET, JWT_SECRET, EMAIL, EMAIL_CREDS, FRONTEND_URL } =
@@ -34,8 +36,15 @@ export const registerAlumni = async (req, res) => {
       programme,
       branch,
       yearOfPassing,
-      // imgOfDegree,
     } = req.body;
+
+    if (!req.files?.imgOfDegree) {
+      return res
+        .status(400)
+        .json({ message: "Image of Degree / Marksheet is required" });
+    }
+
+    const imgOfDegreePath = `/uploads/degrees/${req.files.imgOfDegree[0].filename}`;
 
     if (
       !alumniName ||
@@ -51,7 +60,7 @@ export const registerAlumni = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
     const RollNo = rollNo.trim().toLowerCase();
-    const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/; // strict pattern
+    const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/;
     if (!rollNoRegex.test(RollNo)) {
       return res.status(400).json({
         message: "Expected format: 235/ucs/058",
@@ -89,7 +98,7 @@ export const registerAlumni = async (req, res) => {
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
       yearOfPassing,
-      // imgOfDegree,
+      imgOfDegree: imgOfDegreePath,
       isVerified: false,
     });
 
@@ -167,6 +176,8 @@ export const alumniProfile = async (req, res) => {
       programme: alumni.schoolId?.programme || "N/A",
       branch: alumni.schoolId?.branch || "N/A",
     };
+
+    console.log(data);
 
     res.status(200).json({ entries: data });
   } catch (error) {
@@ -369,15 +380,23 @@ export const alumniLogout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const alumniId = req.alumni._id;
+    const alumniId = req.alumniId;
     const { worksAt, discription, Insta, linkdin, twitter, github, others } =
       req.body;
 
     if (!worksAt || !discription || !linkdin) {
       return res
         .status(400)
-        .json({ message: "worksAt and discription and Linkdin required" });
+        .json({ message: "worksAt, discription, and linkdin are required" });
     }
+
+    if (!req.files?.alumnipfp) {
+      return res.status(400).json({ message: "Image is Required" });
+    }
+
+    const alumnipfpPath = `/uploads/pfp/${req.files.alumnipfp[0].filename}`;
+
+    await Alumni.findByIdAndUpdate(alumniId, { alumnipfp: alumnipfpPath });
 
     const updated = await AlumniSocial.findOneAndUpdate(
       { _id: alumniId },
@@ -393,7 +412,11 @@ export const updateProfile = async (req, res) => {
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    res.json({ message: "Social details updated", entries: updated });
+    res.json({
+      message: "Social details updated",
+      entries: updated,
+      alumnipfp: alumnipfpPath || "Unchanged",
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to update social details" });
@@ -407,7 +430,7 @@ export const viewCard = async (req, res) => {
     const card = await AlumniCard.findOne({ alumniId: alumniId })
       .populate({
         path: "alumniId",
-        select: "dob phoneNo alumniName yearOfPassing",
+        select: "dob phoneNo alumniName yearOfPassing alumnipfp",
       })
       .lean();
 
@@ -419,6 +442,7 @@ export const viewCard = async (req, res) => {
       ...card,
       dob: formatDate(card.alumniId?.dob),
       phoneNo: card.alumniId?.phoneNo || "N/A",
+      alumnipfp: card.alumniId?.alumnipfp || "N/A",
       alumniName: card.alumniId?.alumniName || "N/A",
       yearOfPassing: card.alumniId?.yearOfPassing || "N/A",
     };
