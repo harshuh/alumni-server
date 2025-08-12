@@ -42,9 +42,9 @@ export const registerAlumni = async (req, res) => {
 
     if (req.files && req.files.length) {
       const degreeFile = req.files.find((f) => f.fieldname === "imgOfDegree");
-
-      if (degreeFile)
+      if (degreeFile) {
         imgOfDegreePath = `/uploads/degrees/${degreeFile.filename}`;
+      }
     }
 
     if (
