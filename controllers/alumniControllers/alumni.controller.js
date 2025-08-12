@@ -38,15 +38,14 @@ export const registerAlumni = async (req, res) => {
       yearOfPassing,
     } = req.body;
 
-    if (
-      !req.files ||
-      !req.files.imgOfDegree ||
-      req.files.imgOfDegree.length === 0
-    ) {
-      return res.status(400).json({ message: "Degree image is required" });
-    }
+    let imgOfDegreePath;
 
-    const imgOfDegreePath = `/uploads/degrees/${req.files.imgOfDegree[0].filename}`;
+    if (req.files && req.files.length) {
+      const degreeFile = req.files.find((f) => f.fieldname === "imgOfDegree");
+
+      if (degreeFile)
+        imgOfDegreePath = `/uploads/degrees/${degreeFile.filename}`;
+    }
 
     if (
       !alumniName ||
