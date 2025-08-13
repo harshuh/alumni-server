@@ -114,7 +114,7 @@ export const registerAlumni = async (req, res) => {
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
       yearOfPassing,
-      imgOfDegree: `/uploads/degrees/${fileName}`,
+      imgOfDegree: `https://gbu-alumniserver.vercel.app/uploads/degrees/${fileName}`,
       isVerified: false,
     });
 
