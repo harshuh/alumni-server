@@ -1,6 +1,12 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import { School } from "../../models/School/school.model.js";
 import { Alumni } from "../../models/Alumni/alumniData.model.js";
@@ -21,6 +27,7 @@ const mailer = nodemailer.createTransport({
 });
 
 /* 1. Register Alumni */
+
 export const registerAlumni = async (req, res) => {
   try {
     const {
@@ -51,13 +58,17 @@ export const registerAlumni = async (req, res) => {
     ) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Degree image is required" });
+    }
+
     const RollNo = rollNo.trim().toLowerCase();
     const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/;
     if (!rollNoRegex.test(RollNo)) {
-      return res.status(400).json({
-        message: "Expected format: 235/ucs/058",
-      });
+      return res.status(400).json({ message: "Expected format: 235/ucs/058" });
     }
+
     const findschool = await School.findOne({
       schoolName: school,
       programme,
@@ -79,18 +90,31 @@ export const registerAlumni = async (req, res) => {
       });
     }
 
+    const uploadDir = path.join(__dirname, "../../uploads/degrees");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    const fileName = `degree-${Date.now()}${path.extname(
+      req.file.originalname
+    )}`;
+    const filePath = path.join(uploadDir, fileName);
+
+    // Save file first
+    fs.writeFileSync(filePath, req.file.buffer);
+
     await Alumni.create({
       title,
       alumniName: alumniName.trim(),
       fatherName: fatherName?.trim(),
       dob,
       enrollmentNo: enrollmentNo.trim(),
-      rollNo: RollNo.trim(),
+      rollNo: RollNo,
       email: email.trim().toLowerCase(),
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
       yearOfPassing,
-      imgOfDegree: imgOfDegreePath,
+      imgOfDegree: `/uploads/degrees/${fileName}`,
       isVerified: false,
     });
 
@@ -377,30 +401,54 @@ export const updateProfile = async (req, res) => {
       req.body;
 
     if (!worksAt || !discription || !linkdin) {
-      return res
-        .status(400)
-        .json({ message: "worksAt, discription, and linkdin are required" });
+      return res.status(400).json({
+        message: "worksAt, discription, and linkdin are required",
+      });
     }
 
-    // await Alumni.findByIdAndUpdate(alumniId, { alumnipfp: alumnipfpPath });
+    let alumnipfpPath = null;
 
-    const updated = await AlumniSocial.findOneAndUpdate(
+    //  pfp upload
+    if (req.file) {
+      const alumniData = await Alumni.findById(alumniId);
+      if (alumniData?.alumnipfp) {
+        const oldFilePath = path.join(
+          __dirname,
+          `../../${alumniData.alumnipfp}`
+        );
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath); // Delete old PFP
+        }
+      }
+
+      const uploadDir = path.join(__dirname, "../../uploads/pfp");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      const fileName = `pfp-${Date.now()}${path.extname(
+        req.file.originalname
+      )}`;
+      const filePath = path.join(uploadDir, fileName);
+
+      fs.writeFileSync(filePath, req.file.buffer);
+      alumnipfpPath = `/uploads/pfp/${fileName}`;
+    }
+
+    const updatedSocial = await AlumniSocial.findOneAndUpdate(
       { _id: alumniId },
-      {
-        worksAt,
-        discription,
-        Insta,
-        linkdin,
-        twitter,
-        github,
-        others,
-      },
+      { worksAt, discription, Insta, linkdin, twitter, github, others },
       { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    res.json({
-      message: "Social details updated",
-      entries: updated,
+    // Update alumni PFP if changed
+    if (alumnipfpPath) {
+      await Alumni.findByIdAndUpdate(alumniId, { alumnipfp: alumnipfpPath });
+    }
+
+    res.status(201).json({
+      message: "Social details updated successfully",
+      social: updatedSocial,
       alumnipfp: alumnipfpPath || "Unchanged",
     });
   } catch (err) {
