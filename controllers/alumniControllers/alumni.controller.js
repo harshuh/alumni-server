@@ -59,9 +59,9 @@ export const registerAlumni = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    if (!req.file) {
-      return res.status(400).json({ message: "Degree image is required" });
-    }
+    // if (!req.file) {
+    //   return res.status(400).json({ message: "Degree image is required" });
+    // }
 
     const RollNo = rollNo.trim().toLowerCase();
     const rollNoRegex = /^\d{3}\/[a-z]{3}\/\d{3}$/;
@@ -114,7 +114,7 @@ export const registerAlumni = async (req, res) => {
       phoneNo: phoneNo?.trim(),
       schoolId: findschool._id,
       yearOfPassing,
-      imgOfDegree: `https://gbu-alumniserver.vercel.app/uploads/degrees/${fileName}`,
+      imgOfDegree,
       isVerified: false,
     });
 
