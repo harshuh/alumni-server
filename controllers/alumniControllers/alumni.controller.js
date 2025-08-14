@@ -90,18 +90,18 @@ export const registerAlumni = async (req, res) => {
       });
     }
 
-    const uploadDir = path.join(__dirname, "../../uploads/degrees");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+    // const uploadDir = path.join(__dirname, "../../uploads/degrees");
+    // if (!fs.existsSync(uploadDir)) {
+    //   fs.mkdirSync(uploadDir, { recursive: true });
+    // }
 
-    const fileName = `degree-${Date.now()}${path.extname(
-      req.file.originalname
-    )}`;
-    const filePath = path.join(uploadDir, fileName);
+    // const fileName = `degree-${Date.now()}${path.extname(
+    //   req.file.originalname
+    // )}`;
+    // const filePath = path.join(uploadDir, fileName);
 
-    // Save file first
-    fs.writeFileSync(filePath, req.file.buffer);
+    // // Save file first
+    // fs.writeFileSync(filePath, req.file.buffer);
 
     await Alumni.create({
       title,

@@ -15,24 +15,19 @@ import {
   alumniLogout,
 } from "../../controllers/alumniControllers/alumni.controller.js";
 
-import {
-  uploadImgOfDegree,
-  uploadImgOfalumni,
-} from "../../middlewares/upload.js";
+// import {
+//   uploadImgOfDegree,
+//   uploadImgOfalumni,
+// } from "../../middlewares/upload.js";
 
 const alumniRouter = Router();
 
-alumniRouter.post("/register", uploadImgOfDegree, registerAlumni);
+alumniRouter.post("/register", registerAlumni);
 alumniRouter.post("/login", loginAlumni);
 
 alumniRouter.get("/profile", alumniAuth, alumniProfile);
 alumniRouter.get("/profile/card", alumniAuth, viewCard);
-alumniRouter.put(
-  "/profile/update",
-  alumniAuth,
-  uploadImgOfalumni,
-  updateProfile
-);
+alumniRouter.put("/profile/update", alumniAuth, updateProfile);
 alumniRouter.post("/profile/change-password", alumniAuth, changePassword);
 
 alumniRouter.post("/forgot-password", sendResetLink);
