@@ -68,7 +68,7 @@ const AlumniSchema = new Schema(
     },
     imgOfDegree: {
       type: String,
-      required: true,
+      // required: true,
     },
     alumnipfp: {
       type: String,
