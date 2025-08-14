@@ -15,9 +15,11 @@ export const initiatePayment = async (req, res) => {
     const { hash, params } = await generateHash({ email }, salt);
 
     const paymentUrl = process.env.ENVIRONMENT_TEST;
+    const SURL = process.env.SURL;
+    const FURL = process.env.FURL;
 
-    const surl = "https://gbu-alumniserver.vercel.app/api/payment/success";
-    const furl = "https://gbu-alumniserver.vercel.app/api/payment/failure";
+    const surl = SURL;
+    const furl = FURL;
 
     res.status(200).json({
       ...params,
@@ -153,7 +155,7 @@ export const handlePaymentSuccess = async (req, res) => {
           </style>
           <script>
             setTimeout(function() {
-              window.location.href = "https://alumni-gbu.vercel.app/alumni/checkStatus";
+              window.location.href = "https://alumni-gbu.vercel.app/alumni/login";
             }, 3000);
           </script>
         </head>

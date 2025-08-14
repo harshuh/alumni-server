@@ -400,11 +400,11 @@ export const updateProfile = async (req, res) => {
     const { worksAt, discription, Insta, linkdin, twitter, github, others } =
       req.body;
 
-    if (!worksAt || !discription || !linkdin) {
-      return res.status(400).json({
-        message: "worksAt, discription, and linkdin are required",
-      });
-    }
+    // if (!worksAt || !discription || !linkdin) {
+    //   return res.status(400).json({
+    //     message: "worksAt, discription, and linkdin are required",
+    //   });
+    // }
 
     let alumnipfpPath = null;
 
