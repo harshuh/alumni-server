@@ -94,7 +94,7 @@ export const deleteEvent = async (req, res) => {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    res.json({ message: "Event deleted successfully" });
+    res.status(201).json({ message: "Event deleted successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error while deleting event" });
