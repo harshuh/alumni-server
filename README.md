@@ -1,5 +1,4 @@
 # GBU Alumni Portal - Server
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/harshuh/alumni-server)
 
 This repository contains the backend server for the GBU Alumni Portal. It is a Node.js and Express application responsible for managing user data, authentication, event information, and payment processing. The server is designed to be deployed on Vercel.
 
